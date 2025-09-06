@@ -6,7 +6,7 @@ Base = declarative_base()
 
 
 class Tickets(Base):
-    __tablename__ = 'users'
+    __tablename__ = 'tickets'
 
     id = Column(Integer, primary_key=True)
     data = Column(Date, index=True, nullable=False)
