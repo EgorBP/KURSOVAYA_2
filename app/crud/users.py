@@ -1,17 +1,26 @@
 from sqlalchemy.orm import Session
-from sqlalchemy.orm.attributes import InstrumentedAttribute
-from typing import Sequence
-from app.schemas import TicketCreate, TicketOut, PopularPerformanceOut, PopularTheatreOut
-from app.utils.sqlalchemy_helpers import is_valid_column_for_model, prepare_to_send
-from app.models import Tickets
+from sqlalchemy.dialects.postgresql import insert
+from sqlalchemy import select
+from app.schemas import UserCreate, UserUpdate, UserOut
+from app.utils import hash_password, verify_password, prepare_to_send
+from app.models import Users
+from app.utils import get_all_columns
+
+
+def get_all_users(
+        session: Session,
+):
+    stmt = select(Users)
+    result = session.scalars(stmt)
+    return prepare_to_send(result, UserOut)
 
 
 def add_user(
         session: Session,
-        data: TicketCreate,
-):
+        data: UserCreate,
+) -> UserOut | None:
     """
-    Добавить новую запись в таблицу Tickets.
+    Добавить новую запись в таблицу Users
 
     Args:
         session: Активная SQLAlchemy-сессия.
@@ -20,25 +29,30 @@ def add_user(
     Returns:
         TicketOut: Созданная запись.
     """
-    data = Tickets(
-    data=data.data,
-    theatre_name=data.theatre_name,
-    performance_name=data.performance_name,
-    tickets_count=data.tickets_count,
-    )
-    session.add(data)
+    columns = get_all_columns(Users)
+
+    stmt = insert(Users).values(
+        username=data.username,
+        password_hash=hash_password(data.password)
+    ).on_conflict_do_nothing(
+        index_elements=[Users.username],
+    ).returning(*columns)
+
+    result = session.execute(stmt).fetchone()
+    if not result:
+        return None
+
     session.commit()
-    session.refresh(data)
-    return TicketOut.model_validate(data)
+    return UserOut.model_validate(result)
 
 
 def change_user(
         session: Session,
         row_id: int,
-        data: TicketCreate,
-):
+        data: UserUpdate,
+) -> UserOut:
     """
-    Обновить запись в таблице Tickets по id.
+    Обновить запись в таблице Users по id.
 
     Args:
         session: Активная SQLAlchemy-сессия.
@@ -48,22 +62,20 @@ def change_user(
     Returns:
         TicketOut: Обновлённая запись.
     """
-    row = session.get(Tickets, row_id)
-    row.data = data.data
-    row.theatre_name = data.theatre_name
-    row.performance_name = data.performance_name
-    row.tickets_count = data.tickets_count
+    row = session.get(Users, row_id)
+    row.username = data.username
+    row.password_hash = hash_password(data.password)
     session.commit()
     session.refresh(row)
-    return TicketOut.model_validate(row)
+    return UserOut.model_validate(row)
 
 
 def delete_user(
         session: Session,
         instance_id: int
-):
+) -> bool:
     """
-    Удалить запись из таблицы Tickets по id.
+    Удалить запись из таблицы Users по id.
 
     Args:
         session: Активная SQLAlchemy-сессия.
@@ -72,7 +84,7 @@ def delete_user(
     Returns:
         bool: True если запись была удалена, False если запись не найдена.
     """
-    instance = session.get(Tickets, instance_id)
+    instance = session.get(Users, instance_id)
     if not instance:
         return False
     session.delete(instance)

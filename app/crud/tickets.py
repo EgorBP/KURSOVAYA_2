@@ -2,8 +2,8 @@ from sqlalchemy.orm import Session
 from sqlalchemy.orm.attributes import InstrumentedAttribute
 from sqlalchemy import asc, desc, func, select
 from typing import Sequence
-from app.schemas import TicketCreate, TicketOut, PopularPerformanceOut, PopularTheatreOut
-from app.utils.sqlalchemy_helpers import is_valid_column_for_model, prepare_to_send
+from app.schemas import TicketCreate, TicketOut, TicketUpdate, PopularPerformanceOut, PopularTheatreOut
+from app.utils import is_valid_column_for_model, prepare_to_send
 from app.models import Tickets
 
 
@@ -126,7 +126,7 @@ def add_ticket_row(
 def change_ticket_row(
         session: Session,
         row_id: int,
-        data: TicketCreate,
+        data: TicketUpdate,
 ):
     """
     Обновить запись в таблице Tickets по id.

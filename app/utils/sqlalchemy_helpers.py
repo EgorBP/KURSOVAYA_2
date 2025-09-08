@@ -1,4 +1,4 @@
-from sqlalchemy import MappingResult
+from sqlalchemy import MappingResult, ScalarResult
 from sqlalchemy.orm.attributes import InstrumentedAttribute
 from sqlalchemy.orm import Query
 
@@ -25,7 +25,7 @@ def get_all_columns(model: type):
     return [getattr(model, column.key) for column in model.__mapper__.columns]
 
 
-def prepare_to_send(query: Query | MappingResult, class_: type):
+def prepare_to_send(query: Query | MappingResult | ScalarResult, class_: type):
     """
     Выполняет ORM-запрос и валидирует результаты через Pydantic-модель.
     """

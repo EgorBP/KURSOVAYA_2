@@ -19,5 +19,5 @@ class Users(Base):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True)
-    name = Column(String(255), index=True, nullable=False, unique=True)
+    username = Column(String(255), index=True, nullable=False, unique=True)
     password_hash = Column(String(255), index=True, nullable=False)

@@ -31,3 +31,20 @@ class PopularPerformanceOut(BasePopularDataOut):
 
 class PopularTheatreOut(BasePopularDataOut):
     theatre_name: str
+
+
+class UserBase(BaseModel):
+    username: str
+
+class UserCreate(UserBase):
+    password: str
+
+class UserUpdate(UserCreate):
+    id: int
+
+class UserOut(UserBase):
+    id: int
+
+    model_config = {
+        "from_attributes": True
+    }
