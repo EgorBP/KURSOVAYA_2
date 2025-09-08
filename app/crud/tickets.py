@@ -1,13 +1,13 @@
 from sqlalchemy.orm import Session
 from sqlalchemy.orm.attributes import InstrumentedAttribute
-from sqlalchemy import asc, desc
+from sqlalchemy import asc, desc, func, select
 from typing import Sequence
-from app.schemas import TicketCreate, TicketOut
-from app.utils.sqlalchemy_helpers import is_valid_column_for_model
+from app.schemas import TicketCreate, TicketOut, PopularPerformanceOut, PopularTheatreOut
+from app.utils.sqlalchemy_helpers import is_valid_column_for_model, prepare_to_send
 from app.models import Tickets
 
 
-def get_rows(
+def get_tickets_data(
         session: Session,
         filters: dict[InstrumentedAttribute, Sequence[int | str] | int | str] | None = None,
         sorting: Sequence[tuple[InstrumentedAttribute, bool]] | tuple[InstrumentedAttribute, bool] | None = None,
@@ -70,10 +70,34 @@ def get_rows(
 
         query = query.order_by(*sorters)
 
-    return [TicketOut.model_validate(row) for row in query.all()]
+    return prepare_to_send(query, TicketOut)
 
 
-def add_row(
+def get_popular_theaters(
+        session: Session,
+):
+    stmt = select(
+        Tickets.theatre_name,
+        func.sum(Tickets.tickets_count).label("all_tickets_count")
+    ).group_by(Tickets.theatre_name).order_by(Tickets.theatre_name)
+
+    rows = session.execute(stmt).mappings()
+    return prepare_to_send(rows, PopularTheatreOut)
+
+
+def get_popular_performances(
+        session: Session,
+):
+    stmt = select(
+        Tickets.performance_name,
+        func.sum(Tickets.tickets_count).label("all_tickets_count")
+    ).group_by(Tickets.performance_name).order_by(Tickets.performance_name)
+
+    rows = session.execute(stmt).mappings()
+    return prepare_to_send(rows, PopularPerformanceOut)
+
+
+def add_ticket_row(
         session: Session,
         data: TicketCreate,
 ):
@@ -99,7 +123,7 @@ def add_row(
     return TicketOut.model_validate(data)
 
 
-def change_row(
+def change_ticket_row(
         session: Session,
         row_id: int,
         data: TicketCreate,
@@ -125,7 +149,7 @@ def change_row(
     return TicketOut.model_validate(row)
 
 
-def delete_row(
+def delete_ticket_row(
         session: Session,
         instance_id: int
 ):

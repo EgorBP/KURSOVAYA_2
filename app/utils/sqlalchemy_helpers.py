@@ -1,4 +1,6 @@
+from sqlalchemy import MappingResult
 from sqlalchemy.orm.attributes import InstrumentedAttribute
+from sqlalchemy.orm import Query
 
 
 def is_valid_column_for_model(column: InstrumentedAttribute, model: type) -> bool:
@@ -21,3 +23,10 @@ def get_all_columns(model: type):
     :return: список колонок модели в формате [Model.col1, Model.col2, ...].
     """
     return [getattr(model, column.key) for column in model.__mapper__.columns]
+
+
+def prepare_to_send(query: Query | MappingResult, class_: type):
+    """
+    Выполняет ORM-запрос и валидирует результаты через Pydantic-модель.
+    """
+    return [class_.model_validate(row) for row in query.all()]

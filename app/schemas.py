@@ -8,10 +8,8 @@ class TicketCreate(BaseModel):
     performance_name: str
     tickets_count: int
 
-
 class TicketUpdate(TicketCreate):
     pass
-
 
 class TicketOut(TicketCreate):
     id: int
@@ -19,3 +17,17 @@ class TicketOut(TicketCreate):
     model_config = {
         "from_attributes": True
     }
+
+
+class BasePopularDataOut(BaseModel):
+    all_tickets_count: int
+
+    model_config = {
+        "from_attributes": True
+    }
+
+class PopularPerformanceOut(BasePopularDataOut):
+    performance_name: str
+
+class PopularTheatreOut(BasePopularDataOut):
+    theatre_name: str
