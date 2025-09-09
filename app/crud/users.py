@@ -25,11 +25,11 @@ def validate_user_password(
             - None, если пользователь с таким username не найден.
     """
     stmt = select(Users).where(Users.username == data.username)
-    result = session.execute(stmt).fetchone()
+    result = session.execute(stmt).scalar_one_or_none()
 
     if not result:
         return None
-    elif verify_password(data.password, result.password):
+    elif verify_password(data.password, result.password_hash):
         return True
     else:
         return False
