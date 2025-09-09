@@ -24,5 +24,7 @@ table = ui.table(
     ],
     rows = [t.model_dump() for t in tickets],  # список словарей
 )
+button = ui.button(text='sosati silino', on_click=lambda: ui.notify('Ебать долбоеб не жми на button'))
+button.props('rounded')
 table.classes('text-center')  # применяет центрирование ко всем колонкам
-ui.run(port=8081)
+ui.run(port=8081, dark=True)
