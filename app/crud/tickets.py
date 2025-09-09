@@ -11,7 +11,7 @@ def get_tickets_data(
         session: Session,
         filters: dict[InstrumentedAttribute, Sequence[int | str] | int | str] | None = None,
         sorting: Sequence[tuple[InstrumentedAttribute, bool]] | tuple[InstrumentedAttribute, bool] | None = None,
-):
+) -> list[TicketOut]:
     """
     Получить строки из таблицы Tickets с фильтрацией и сортировкой.
 
@@ -75,7 +75,16 @@ def get_tickets_data(
 
 def get_popular_theaters(
         session: Session,
-):
+) -> list[PopularTheatreOut]:
+    """
+    Получить суммарное количество проданных билетов для каждого театра.
+
+    Args:
+        session (Session): Активная SQLAlchemy-сессия.
+
+    Returns:
+        list[PopularTheatreOut]: Список театров с общим количеством проданных билетов.
+    """
     stmt = select(
         Tickets.theatre_name,
         func.sum(Tickets.tickets_count).label("all_tickets_count")
@@ -87,7 +96,16 @@ def get_popular_theaters(
 
 def get_popular_performances(
         session: Session,
-):
+) -> list[PopularPerformanceOut]:
+    """
+    Получить суммарное количество проданных билетов для каждого спектакля.
+
+    Args:
+        session (Session): Активная SQLAlchemy-сессия.
+
+    Returns:
+        list[PopularPerformanceOut]: Список спектаклей с общим количеством проданных билетов.
+    """
     stmt = select(
         Tickets.performance_name,
         func.sum(Tickets.tickets_count).label("all_tickets_count")
@@ -100,7 +118,7 @@ def get_popular_performances(
 def add_ticket_row(
         session: Session,
         data: TicketCreate,
-):
+) -> TicketOut:
     """
     Добавить новую запись в таблицу Tickets.
 
@@ -127,7 +145,7 @@ def change_ticket_row(
         session: Session,
         row_id: int,
         data: TicketUpdate,
-):
+) -> TicketOut:
     """
     Обновить запись в таблице Tickets по id.
 
@@ -152,7 +170,7 @@ def change_ticket_row(
 def delete_ticket_row(
         session: Session,
         instance_id: int
-):
+) -> bool:
     """
     Удалить запись из таблицы Tickets по id.
 
