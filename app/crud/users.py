@@ -3,36 +3,37 @@ from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy import select
 from app.schemas import UserCreate, UserUpdate, UserOut, UserLogin
 from app.utils import hash_password, verify_password, prepare_to_send
-from app.models import Users
+from app.models import Users, UserRole
 from app.utils import get_all_columns
 
 
 def validate_user_password(
         session: Session,
         data: UserLogin,
-) -> bool | None:
+) -> UserRole | None:
     """
-    Проверить корректность пароля пользователя.
+    Проверяет существование пользователя и корректность пароля.
 
     Args:
         session (Session): Активная SQLAlchemy-сессия.
-        data (UserLogin): Данные для входа (username и password).
+        data (UserLogin): Объект с атрибутами `username` и `password`.
 
     Returns:
-        bool | None:
-            - True, если пароль верный.
-            - False, если пароль неверный.
-            - None, если пользователь с таким username не найден.
+        UserRole | None:
+            - экземпляр `UserRole` (например, `UserRole.USER` или `UserRole.ADMIN`),
+              если имя пользователя найдено и пароль совпадает;
+            - None, если пользователь не найден или пароль неверный.
     """
     stmt = select(Users).where(Users.username == data.username)
     result = session.execute(stmt).scalar_one_or_none()
 
     if not result:
         return None
-    elif verify_password(data.password, result.password_hash):
-        return True
+
+    if verify_password(data.password, result.password_hash):
+        return result.role
     else:
-        return False
+        return None
 
 
 def get_all_users(
@@ -68,10 +69,13 @@ def add_user(
         если пользователь с таким username уже существует.
     """
     columns = get_all_columns(Users)
+    print(data.role)
+    print(type(data.role))
 
     stmt = insert(Users).values(
         username=data.username,
-        password_hash=hash_password(data.password)
+        password_hash=hash_password(data.password),
+        role=data.role,
     ).on_conflict_do_nothing(
         index_elements=[Users.username],
     ).returning(*columns)
@@ -88,7 +92,7 @@ def change_user(
         session: Session,
         row_id: int,
         data: UserUpdate,
-) -> UserOut:
+) -> UserOut | None:
     """
     Обновить пользователя в таблице Users по id.
 
@@ -98,11 +102,16 @@ def change_user(
         data (UserUpdate): Новые данные пользователя.
 
     Returns:
-        UserOut: Обновлённая запись пользователя.
+        UserOut | None: Обновлённая запись пользователя или None,
+        если пользователь с указанным id не найден.
     """
     row = session.get(Users, row_id)
+    if not row:
+        return None
+
     row.username = data.username
     row.password_hash = hash_password(data.password)
+    row.role = data.role
     session.commit()
     session.refresh(row)
     return UserOut.model_validate(row)

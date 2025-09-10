@@ -2,15 +2,17 @@ from datetime import date
 from app.crud.tickets import *
 from app.crud.users import *
 from app.database import SessionLocal
-from app.schemas import TicketCreate
+from app.schemas import TicketCreate, UserCreate
 from app.models import Tickets
+from app.models import UserRole
 
 
 with SessionLocal() as session:
     result1 = get_tickets_data(session)
     data = UserCreate(
-        username='Егор',
+        username='Егор_admin',
         password='12345',
+        role=UserRole.ADMIN,
     )
     # data = TicketCreate(
     #     data=date.today(),
@@ -27,7 +29,7 @@ with SessionLocal() as session:
     # result4 = get_popular_theaters(session)
     # result11 = add_user(session, data)
     result3 = delete_user(session, 1)
-    result11 = validate_user_password(session, UserLogin(username='Егорs', password='12345'))
+    result11 = validate_user_password(session, UserLogin(username='Егор_admin', password='12345'))
     result4 = get_all_users(session)
     print()
     print(result3)

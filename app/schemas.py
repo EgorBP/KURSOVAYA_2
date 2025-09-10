@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from datetime import date
+from app.models import UserRole
 
 
 class TicketCreate(BaseModel):
@@ -35,6 +36,7 @@ class PopularTheatreOut(BasePopularDataOut):
 
 class UserBase(BaseModel):
     username: str
+    role: UserRole
 
 class UserCreate(UserBase):
     password: str
