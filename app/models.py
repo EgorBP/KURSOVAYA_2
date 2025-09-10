@@ -1,8 +1,14 @@
-from sqlalchemy import Column, String, Integer, Date
+from sqlalchemy import Column, String, Integer, Date, Enum
 from sqlalchemy.orm import declarative_base
+import enum
 
 
 Base = declarative_base()
+
+
+class UserRole(enum.Enum):
+    USER = "user"
+    ADMIN = "admin"
 
 
 class Tickets(Base):
@@ -21,3 +27,4 @@ class Users(Base):
     id = Column(Integer, primary_key=True)
     username = Column(String(255), index=True, nullable=False, unique=True)
     password_hash = Column(String(255), index=True, nullable=False)
+    role = Column(Enum(UserRole, name="userrole"), index=True, nullable=False)
