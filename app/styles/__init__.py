@@ -1,0 +1,1 @@
+from .styles import MAIN_COLOR

@@ -1,6 +1,9 @@
 from nicegui import ui
 from app.schemas import TicketOut
 import datetime
+import pages.menu
+import pages.login
+
 
 # допустим, у вас есть список объектов TicketOut
 tickets = [
@@ -27,4 +30,4 @@ table = ui.table(
 button = ui.button(text='sosati silino', on_click=lambda: ui.notify('Ебать долбоеб не жми на button'))
 button.props('rounded')
 table.classes('text-center')  # применяет центрирование ко всем колонкам
-ui.run(port=8081, dark=True)
+ui.run(port=8082, dark=True, show=False, reload=False)
