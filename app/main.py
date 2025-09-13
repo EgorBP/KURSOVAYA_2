@@ -5,7 +5,12 @@ import pages.menu
 import pages.login
 
 
-# допустим, у вас есть список объектов TicketOut
+@ui.page('/')
+def main_page():
+    ui.label('This is the main page.')
+    # print(ui.navigate.reload())
+    ui.button('Reload All Pages', on_click=lambda: ui.run_javascript('location.reload()'))
+
 tickets = [
     TicketOut(data=datetime.date(2025, 9, 6), theatre_name='Большой Театр', performance_name='МегаПон^3', tickets_count=10, id=6),
     TicketOut(data=datetime.date(2025, 9, 6), theatre_name='Большой Театр', performance_name='МегаПон^3', tickets_count=15, id=7),
@@ -15,7 +20,7 @@ tickets = [
 ]
 def render_button(row):
     return ui.button(f"Buy {row['tickets_count']}", on_click=lambda: print(f"Clicked {row['id']}"))
-# создаём таблицу
+
 table = ui.table(
     columns=[
         {"name": "id", "label": "ID", 'field': 'id', 'sortable': True, 'align': 'center'},
@@ -27,8 +32,6 @@ table = ui.table(
     ],
     rows = [t.model_dump() for t in tickets],  # список словарей
 )
-button = ui.button(text='sosati silino', on_click=lambda: ui.notify('Ебать долбоеб не жми на button'))
-button.props('rounded')
 table.classes('text-center')  # применяет центрирование ко всем колонкам
 
 
