@@ -30,4 +30,6 @@ table = ui.table(
 button = ui.button(text='sosati silino', on_click=lambda: ui.notify('Ебать долбоеб не жми на button'))
 button.props('rounded')
 table.classes('text-center')  # применяет центрирование ко всем колонкам
-ui.run(port=8082, dark=True, show=False, reload=False)
+
+
+ui.run(port=8082, dark=True, show=False, reload=False, storage_secret='123465')

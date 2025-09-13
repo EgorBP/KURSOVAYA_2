@@ -4,6 +4,8 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/.idea/dataSources" />
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/dictionaries" />
+      <excludeFolder url="file://$MODULE_DIR$/.nicegui" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.13 (KURSOVAYA_2)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
