@@ -32,15 +32,15 @@ def admin_menu():
         ):
             ui.button(
                 text='Найти',
-                on_click=lambda: ui.notify('')
+                on_click=lambda: ui.navigate.to('/find')
             ).props('rounded').style(f'font-size: 1.5rem; background: {MAIN_COLOR_GRADIENT} !important; flex: 1')
             ui.button(
                 text='Просмотреть все данные',
-                on_click=lambda: ui.notify('')
+                on_click=lambda: ui.navigate.to('/data')
             ).props('rounded').style(f'font-size: 1.5rem; background: {MAIN_COLOR_GRADIENT} !important; flex: 1')
             ui.button(
                 text='Добавить',
-                on_click=lambda: ui.notify('')
+                on_click=lambda: ui.navigate.to('/add')
             ).props('rounded').style(f'font-size: 1.5rem; background: {MAIN_COLOR_GRADIENT} !important; flex: 1')
         with ui.row().style(
                 'font-size: 15rem; '
@@ -53,11 +53,11 @@ def admin_menu():
         ):
             ui.button(
                 text='Узнать популярные театры',
-                on_click=lambda: ui.notify('')
+                on_click=lambda: ui.navigate.to('/popular_theaters')
             ).props('rounded').style(f'font-size: 1.5rem; background: {MAIN_COLOR_GRADIENT} !important; flex: 1')
             ui.button(
                 text='Узнать популярные спектакли',
-                on_click=lambda: ui.notify('')
+                on_click=lambda: ui.navigate.to('/popular_performances')
             ).props('rounded').style(f'font-size: 1.5rem; background: {MAIN_COLOR_GRADIENT} !important; flex: 1')
 
 
@@ -88,11 +88,11 @@ def user_menu():
         ):
             ui.button(
                 text='Найти',
-                on_click=lambda: ui.notify('')
+                on_click=lambda: ui.navigate.to('/find')
             ).props('rounded').style(f'font-size: 1.5rem; background: {MAIN_COLOR_GRADIENT} !important; flex: 1')
             ui.button(
                 text='Просмотреть все данные',
-                on_click=lambda: ui.notify('')
+                on_click=lambda: ui.navigate.to('/data')
             ).props('rounded').style(f'font-size: 1.5rem; background: {MAIN_COLOR_GRADIENT} !important; flex: 1')
         with ui.row().style(
                 'font-size: 15rem; '
@@ -105,9 +105,9 @@ def user_menu():
         ):
             ui.button(
                 text='Узнать популярные театры',
-                on_click=lambda: ui.notify('')
+                on_click=lambda: ui.navigate.to('/popular_theaters')
             ).props('rounded').style(f'font-size: 1.5rem; background: {MAIN_COLOR_GRADIENT} !important; flex: 1')
             ui.button(
                 text='Узнать популярные спектакли',
-                on_click=lambda: ui.notify('')
+                on_click=lambda: ui.navigate.to('/popular_performances')
             ).props('rounded').style(f'font-size: 1.5rem; background: {MAIN_COLOR_GRADIENT} !important; flex: 1')
