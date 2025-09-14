@@ -3,6 +3,8 @@ from app.styles import MAIN_COLOR
 from app import ui_elements
 from app.decorators import required_status
 from app.services.data import get_all_data, delete_instance
+from app.utils import check_login_type
+from app.models import UserRole
 
 
 @ui.page('/data', title='Данные театров')
@@ -12,6 +14,7 @@ def data():
     ui_elements.disable_scroll()
 
     data = get_all_data()
+    is_admin = check_login_type(UserRole.ADMIN)
 
     with ui.column().style('align-items: center; width: 100%;'):
         with ui.column().style('position: relative; width: 100%; align-items: center;'):
@@ -42,7 +45,6 @@ def data():
                     {"name": "theatre_name", "label": "Театр", 'field': 'theatre_name', 'align': 'center'},
                     {"name": "performance_name", "label": "Выступление", 'field': 'performance_name', 'align': 'center'},
                     {"name": "tickets_count", "label": "Количество билетов", 'field': 'tickets_count', 'sortable': True, 'align': 'center'},
-                    {"name": "actions", "label": "Действия", 'field': 'actions', 'align': 'center'},  # Столбец для кнопок
                 ],
                 rows=[t.model_dump() for t in data],
                 pagination=5,
@@ -56,12 +58,14 @@ def data():
                 """
             )
 
-            table.add_slot(f'body-cell-actions', """
-                <q-td :props="props">
-                    <q-btn @click="$parent.$emit('edit', props)" icon="edit" flat dense color='blue'/>
-                    <q-btn @click="$parent.$emit('del', props)" icon="delete" flat dense color='red'/>
-                </q-td>
-            """)
+            if is_admin:
+                table.columns.append({"name": "actions", "label": "Действия", "field": "actions", "align": "center"})
+                table.add_slot(f'body-cell-actions', """
+                    <q-td :props="props">
+                        <q-btn @click="$parent.$emit('edit', props)" icon="edit" flat dense color='blue'/>
+                        <q-btn @click="$parent.$emit('del', props)" icon="delete" flat dense color='red'/>
+                    </q-td>
+                """)
 
-            table.on('edit', lambda msg: print("edit", msg))
-            table.on('del', lambda msg: delete_instance(msg.args['row']['id'], table))
+                table.on('edit', lambda msg: ui.navigate.to(f'/change/tickets/{msg.args['row']['id']}'))
+                table.on('del', lambda msg: delete_instance(msg.args['row']['id'], table))

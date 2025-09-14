@@ -9,7 +9,7 @@ def admin_menu():
     ui_elements.top_panel()
     ui_elements.disable_scroll()
 
-    with ui.row().style('justify-content: center; width: 100%; '):
+    with ui.row().style('justify-content: center; width: 100%;'):
         ui.label('Вход в систему').style(
             f'font-size: 6rem;'
             f'text-align: center;'
