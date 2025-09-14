@@ -158,7 +158,7 @@ def change_ticket_row(
         TicketOut: Обновлённая запись.
     """
     row = session.get(Tickets, row_id)
-    row.data = data.data
+    row.date = data.data
     row.theatre_name = data.theatre_name
     row.performance_name = data.performance_name
     row.tickets_count = data.tickets_count

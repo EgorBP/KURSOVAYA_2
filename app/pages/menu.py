@@ -47,7 +47,7 @@ def admin_menu():
             ).props('rounded').style(f'font-size: 1.5rem; background: {MAIN_COLOR_GRADIENT} !important; flex: 1')
             ui.button(
                 text='Добавить',
-                on_click=lambda: ui.navigate.to('/add')
+                on_click=lambda: ui.navigate.to('/add/tickets')
             ).props('rounded').style(f'font-size: 1.5rem; background: {MAIN_COLOR_GRADIENT} !important; flex: 1')
         with ui.row().style(
                 'font-size: 15rem; '
@@ -69,7 +69,7 @@ def admin_menu():
 
 
 @ui.page('/user', title='Меню пользователя')
-@required_status(UserRole.USER)
+@required_status()
 def user_menu():
     ui_elements.top_panel('Панель пользователя', 83)
 

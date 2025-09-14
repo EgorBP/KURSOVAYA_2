@@ -8,8 +8,9 @@ from app.models import UserRole
 
 
 @ui.page('/data/tickets', title='Данные театров')
+@ui.page('/data/tickets/{column}/{value}', title='Данные театров')
 @required_status()
-def data_tickets():
+def data_tickets(column: str | None = None, value: str | None = None):
     ui_elements.top_panel('Получение данных', 70)
     ui_elements.disable_scroll()
 
@@ -31,14 +32,14 @@ def data_tickets():
             table = ui.table(
                 columns=[
                     {"name": "id", "label": "ID", 'field': 'id', 'sortable': True, 'align': 'center'},
-                    {"name": "data", "label": "Дата", 'field': 'data', 'sortable': True, 'align': 'center'},
+                    {"name": "date", "label": "Дата", 'field': 'date', 'sortable': True, 'align': 'center'},
                     {"name": "theatre_name", "label": "Театр", 'field': 'theatre_name', 'sortable': True, 'align': 'center'},
                     {"name": "performance_name", "label": "Выступление", 'field': 'performance_name', 'sortable': True, 'align': 'center'},
                     {"name": "tickets_count", "label": "Количество билетов", 'field': 'tickets_count', 'sortable': True, 'align': 'center'},
                 ],
                 rows=[t.model_dump() for t in data],
                 pagination=5,
-            ).style(
+            ).classes('my-table').style(
                 f"""
                 flex: 1;
                 border: 0.15rem solid {MAIN_COLOR};
@@ -47,6 +48,22 @@ def data_tickets():
                 box-shadow: none;
                 """
             )
+            ui.add_css("""
+            /* заголовки таблицы */
+            .my-table thead th {
+                font-size: 1rem !important;
+            }
+
+            /* ячейки тела таблицы */
+            .my-table tbody td {
+                font-size: 0.8rem !important;
+            }
+
+            /* если нужно - шаги пагинации/футер */
+            .my-table .q-table__bottom {
+                font-size: 0.8rem !important;
+            }
+            """)
 
             if is_admin:
                 table.columns.append({"name": "actions", "label": "Действия", "field": "actions", "align": "center"})
@@ -62,8 +79,9 @@ def data_tickets():
 
 
 @ui.page('/data/users', title='Данные пользователей')
+@ui.page('/data/users/{column}/{value}', title='Данные пользователей')
 @required_status(UserRole.ADMIN)
-def data_users():
+def data_users(column: str | None = None, value: str | None = None):
     ui_elements.top_panel('Пользователи', 65)
     ui_elements.disable_scroll()
 

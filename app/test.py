@@ -3,24 +3,24 @@ from app.crud.tickets import *
 from app.crud.users import *
 from app.database import SessionLocal
 from app.schemas import TicketCreate, UserCreate
-from app.models import Tickets
-from app.models import UserRole
+from app.models import Tickets, UserRole, Users
 
 
 with SessionLocal() as session:
+    print()
     # result1 = get_tickets_data(session)
     data = UserCreate(
         username='Егор',
         password='12345',
         role=UserRole.USER,
     )
-    # data = TicketCreate(
-    #     data=date.today(),
+    # date = TicketCreate(
+    #     date=date.today(),
     #     theatre_name='ааааа',
     #     performance_name='МегаПон^4',
     #     tickets_count=50,
     # )
-    # result2 = add_ticket_row(session, data)
+    # result2 = add_ticket_row(session, date)
     # result3 = delete_row(session, 9)
     # result11 = get_tickets_data(session)
     # result4 = get_tickets_data(session, filters={Tickets.performance_name:'МегаПон^3'})
