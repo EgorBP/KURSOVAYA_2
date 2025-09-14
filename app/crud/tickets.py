@@ -130,7 +130,7 @@ def add_ticket_row(
         TicketOut: Созданная запись.
     """
     data = Tickets(
-    data=data.data,
+    date=data.date,
     theatre_name=data.theatre_name,
     performance_name=data.performance_name,
     tickets_count=data.tickets_count,
@@ -158,7 +158,7 @@ def change_ticket_row(
         TicketOut: Обновлённая запись.
     """
     row = session.get(Tickets, row_id)
-    row.date = data.data
+    row.date = data.date
     row.theatre_name = data.theatre_name
     row.performance_name = data.performance_name
     row.tickets_count = data.tickets_count

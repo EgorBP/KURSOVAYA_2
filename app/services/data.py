@@ -19,14 +19,23 @@ def get_all_tickets_data(
     return data
 
 
-def delete_on_tickets(instance_id: int, table: ui.table | None = None) -> bool:
+def delete_on_tickets(
+        instance_id: int,
+        table: ui.table | None = None,
+        filters: dict[InstrumentedAttribute, Sequence[int | str] | int | str] | None = None,
+        sorting: Sequence[tuple[InstrumentedAttribute, bool]] | tuple[InstrumentedAttribute, bool] | None = None,
+) -> bool:
     with SessionLocal() as session:
         result = tickets.delete_ticket_row(
             session=session,
             instance_id=instance_id,
         )
         if table and result:
-            data = tickets.get_tickets_data(session=session)
+            data = tickets.get_tickets_data(
+                session=session,
+                filters=filters,
+                sorting=sorting,
+            )
     if result:
         ui.notify("✅ Поле успешно удалено ✅")
         if table:

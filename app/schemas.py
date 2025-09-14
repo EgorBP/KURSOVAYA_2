@@ -4,7 +4,7 @@ from app.models import UserRole
 
 
 class TicketCreate(BaseModel):
-    data: date
+    date: date
     theatre_name: str
     performance_name: str
     tickets_count: int
