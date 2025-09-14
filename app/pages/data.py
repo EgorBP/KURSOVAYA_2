@@ -1,6 +1,6 @@
 import datetime
 from nicegui import ui
-from app.styles import MAIN_COLOR
+from app.styles import MAIN_COLOR, MAIN_COLOR_GRADIENT
 from app import ui_elements
 from app.decorators import required_status
 from app.services.data import get_all_tickets_data, delete_on_tickets, get_all_users_data, delete_on_users
@@ -88,13 +88,13 @@ def data_tickets(column: str | None = None, value: str | None = None):
                 #         <q-btn @click="$parent.$emit('del', props)" icon="delete" flat dense color='red'/>
                 #     </q-td>
                 # """)
-                table.add_slot("body", r"""
+                table.add_slot("body", fr"""
                 <q-tr :props="props">
-                    <q-td class="text-center" style="width:10%;">{{ props.row.id }}</q-td>
-                    <q-td class="text-center" style="width:20%;">{{ props.row.date }}</q-td>
-                    <q-td class="text-center" style="width:20%;">{{ props.row.theatre_name }}</q-td>
-                    <q-td class="text-center" style="width:25%;">{{ props.row.performance_name }}</q-td>
-                    <q-td class="text-center" style="width:15%;">{{ props.row.tickets_count }}</q-td>
+                    <q-td class="text-center" style="width:10%;">{{{{ props.row.id }}}}</q-td>
+                    <q-td class="text-center" style="width:20%;">{{{{ props.row.date }}}}</q-td>
+                    <q-td class="text-center" style="width:20%;">{{{{ props.row.theatre_name }}}}</q-td>
+                    <q-td class="text-center" style="width:25%;">{{{{ props.row.performance_name }}}}</q-td>
+                    <q-td class="text-center" style="width:15%;">{{{{ props.row.tickets_count }}}}</q-td>
                     <q-td class="text-center" style="width:10%;">
                         <q-btn color="yellow" flat dense 
                             @click="props.expand = !props.expand"
@@ -111,7 +111,8 @@ def data_tickets(column: str | None = None, value: str | None = None):
                             <q-input v-model="props.row.theatre_name" dense style="flex:0.20;" input-class="text-center" />
                             <q-input v-model="props.row.performance_name" dense style="flex:0.26;" input-class="text-center" />
                             <q-input v-model="props.row.tickets_count" dense style="flex:0.15;" input-class="text-center" />
-                            <q-btn icon="save" color="primary" dense style="flex:0.09;" 
+                            <q-btn icon="save" dense style="flex:0.09;" 
+                                style="background: {MAIN_COLOR_GRADIENT}; color: white;"  
                                 @click="($parent.$emit('save_row', props.row), props.expand = !props.expand)" />    
                         </div>
                     </q-td>
