@@ -69,8 +69,6 @@ def add_user(
         если пользователь с таким username уже существует.
     """
     columns = get_all_columns(Users)
-    print(data.role)
-    print(type(data.role))
 
     stmt = insert(Users).values(
         username=data.username,

@@ -8,19 +8,26 @@ from app.models import UserRole
 @ui.page('/admin', title='Меню администратора')
 @required_status(UserRole.ADMIN)
 def admin_menu():
-    ui_elements.top_panel()
+    ui_elements.top_panel('Панель администратора', 83)
 
     with ui.column().style('align-items: center; width: 100%;'):
-        with ui.column().style('position: relative; width: 100%; align-items: center;'):
-            ui.label('Панель администратора').style(
-                f'font-size: 6rem; '
-                f'text-align: center; '
-                f'border: 4px solid {MAIN_COLOR}; '
-                f'padding: 2rem;'
-                f'border-radius: 1rem;'
-                f'transform: translateY(-10vh);'  # смещаем вверх на половину высоты экрана
-                f'width: 83%;'  # чтобы боковые края не по центру полностью
-            )
+        with ui.row().style(
+                'font-size: 15rem; '
+                'width: 60%; '
+                'justify-content: center; '
+                'display: flex; '
+                'align-items: stretch; '
+                'flex-direction: row;'
+                'margin-top: -1rem;'
+        ):
+            ui.button(
+                text='Просмотреть всех пользователей',
+                on_click=lambda: ui.navigate.to('/data/users')
+            ).props('rounded').style(f'font-size: 1.5rem; background: {MAIN_COLOR_GRADIENT} !important; flex: 1')
+            ui.button(
+                text='Добавить пользователя',
+                on_click=lambda: ui.navigate.to('/add/user')
+            ).props('rounded').style(f'font-size: 1.5rem; background: {MAIN_COLOR_GRADIENT} !important; flex: 1')
         with ui.row().style(
                 'font-size: 15rem; '
                 'width: 70%; '
@@ -28,15 +35,15 @@ def admin_menu():
                 'display: flex; '
                 'align-items: stretch; '
                 'flex-direction: row;'
-                'margin-top: 2rem;'
+                'margin-top: 2.5rem;'
         ):
             ui.button(
                 text='Найти',
-                on_click=lambda: ui.navigate.to('/find')
+                on_click=lambda: ui.navigate.to('/search')
             ).props('rounded').style(f'font-size: 1.5rem; background: {MAIN_COLOR_GRADIENT} !important; flex: 1')
             ui.button(
                 text='Просмотреть все данные',
-                on_click=lambda: ui.navigate.to('/data')
+                on_click=lambda: ui.navigate.to('/data/tickets')
             ).props('rounded').style(f'font-size: 1.5rem; background: {MAIN_COLOR_GRADIENT} !important; flex: 1')
             ui.button(
                 text='Добавить',
@@ -49,7 +56,7 @@ def admin_menu():
                 'display: flex; '
                 'align-items: stretch; '
                 'flex-direction: row;'
-                'margin-top: 4rem;'
+                'margin-top: 2.5rem;'
         ):
             ui.button(
                 text='Узнать популярные театры',
@@ -64,19 +71,9 @@ def admin_menu():
 @ui.page('/user', title='Меню пользователя')
 @required_status(UserRole.USER)
 def user_menu():
-    ui_elements.top_panel()
+    ui_elements.top_panel('Панель пользователя', 83)
 
     with ui.column().style(f'align-items: center; width: 100%;'):
-        with ui.column().style(f'position: relative; width: 100%; align-items: center;'):
-            ui.label('Панель пользователя').style(
-                f'font-size: 6rem; '
-                f'text-align: center; '
-                f'border: 4px solid {MAIN_COLOR}; '
-                f'padding: 2rem;'
-                f'border-radius: 1rem;'
-                f'transform: translateY(-10vh);'  # смещаем вверх на половину высоты экрана
-                f'width: 83%;'  # чтобы боковые края не по центру полностью
-            )
         with ui.row().style(
                 'font-size: 15rem; '
                 'width: 70%; '
@@ -88,11 +85,11 @@ def user_menu():
         ):
             ui.button(
                 text='Найти',
-                on_click=lambda: ui.navigate.to('/find')
+                on_click=lambda: ui.navigate.to('/search')
             ).props('rounded').style(f'font-size: 1.5rem; background: {MAIN_COLOR_GRADIENT} !important; flex: 1')
             ui.button(
                 text='Просмотреть все данные',
-                on_click=lambda: ui.navigate.to('/data')
+                on_click=lambda: ui.navigate.to('/data/tickets')
             ).props('rounded').style(f'font-size: 1.5rem; background: {MAIN_COLOR_GRADIENT} !important; flex: 1')
         with ui.row().style(
                 'font-size: 15rem; '

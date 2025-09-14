@@ -1,5 +1,5 @@
 from nicegui import ui
-from pages import data, login, menu, popular_data
+from pages import data, login, menu, popular_data, search
 
 
 @ui.page('/')

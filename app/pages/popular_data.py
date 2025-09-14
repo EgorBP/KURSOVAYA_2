@@ -9,23 +9,13 @@ from app.database import SessionLocal
 @ui.page('/popular_theaters', title='Популярные театры')
 @required_status()
 def data():
-    ui_elements.top_panel()
+    ui_elements.top_panel('Популярные театры', 70)
     ui_elements.disable_scroll()
 
     with SessionLocal() as session:
         data = tickets.get_popular_theaters(session)
 
     with ui.column().style('align-items: center; width: 100%;'):
-        with ui.column().style('position: relative; width: 100%; align-items: center;'):
-            ui.label('Популярные театры').style(
-                f'font-size: 6rem; '
-                f'text-align: center; '
-                f'border: 4px solid {MAIN_COLOR}; '
-                f'padding: 2rem;'
-                f'border-radius: 1rem;'
-                f'transform: translateY(-10vh);'
-                f'width: 70%;'
-            )
         with ui.row().style(
             f"""
             width: 30%;
@@ -74,23 +64,13 @@ def data():
 @ui.page('/popular_performances', title='Популярные спектакли')
 @required_status()
 def data():
-    ui_elements.top_panel()
+    ui_elements.top_panel('Популярные спектакли', 80)
     ui_elements.disable_scroll()
 
     with SessionLocal() as session:
         data = tickets.get_popular_performances(session)
 
     with ui.column().style('align-items: center; width: 100%;'):
-        with ui.column().style('position: relative; width: 100%; align-items: center;'):
-            ui.label('Популярные спектакли').style(
-                f'font-size: 6rem; '
-                f'text-align: center; '
-                f'border: 4px solid {MAIN_COLOR}; '
-                f'padding: 2rem;'
-                f'border-radius: 1rem;'
-                f'transform: translateY(-10vh);'
-                f'width: 80%;'
-            )
         with ui.row().style(
             f"""
             width: 30%;

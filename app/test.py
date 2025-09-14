@@ -8,26 +8,26 @@ from app.models import UserRole
 
 
 with SessionLocal() as session:
-    result1 = get_tickets_data(session)
-    # data = UserCreate(
-    #     username='Егор_a',
-    #     password='12345',
-    #     role=UserRole.ADMIN,
-    # )
-    data = TicketCreate(
-        data=date.today(),
-        theatre_name='ааааа',
-        performance_name='МегаПон^4',
-        tickets_count=50,
+    # result1 = get_tickets_data(session)
+    data = UserCreate(
+        username='Егор',
+        password='12345',
+        role=UserRole.USER,
     )
-    result2 = add_ticket_row(session, data)
+    # data = TicketCreate(
+    #     data=date.today(),
+    #     theatre_name='ааааа',
+    #     performance_name='МегаПон^4',
+    #     tickets_count=50,
+    # )
+    # result2 = add_ticket_row(session, data)
     # result3 = delete_row(session, 9)
     # result11 = get_tickets_data(session)
     # result4 = get_tickets_data(session, filters={Tickets.performance_name:'МегаПон^3'})
     # result4 = get_tickets_data(session, sorting=((Tickets.theatre_name, False), (Tickets.tickets_count, True)))
     # result4 = get_popular_performances(session)
     # result4 = get_popular_theaters(session)
-    # result11 = add_user(session, data)
+    result11 = add_user(session, data)
     # result3 = delete_user(session, 1)
     # result11 = validate_user_password(session, UserLogin(username='Егор_admin', password='12345'))
     # result4 = get_all_users(session)
