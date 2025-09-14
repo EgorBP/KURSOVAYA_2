@@ -1,38 +1,10 @@
 from nicegui import ui
-from app.schemas import TicketOut
-import datetime
-import pages.menu
-import pages.login
+from pages import data, login, menu
 
 
 @ui.page('/')
 def main_page():
-    ui.label('This is the main page.')
-    # print(ui.navigate.reload())
-    ui.button('Reload All Pages', on_click=lambda: ui.run_javascript('location.reload()'))
-
-tickets = [
-    TicketOut(data=datetime.date(2025, 9, 6), theatre_name='Большой Театр', performance_name='МегаПон^3', tickets_count=10, id=6),
-    TicketOut(data=datetime.date(2025, 9, 6), theatre_name='Большой Театр', performance_name='МегаПон^3', tickets_count=15, id=7),
-    TicketOut(data=datetime.date(2025, 9, 6), theatre_name='Большой Театр', performance_name='МегаПон^3', tickets_count=20, id=8),
-    TicketOut(data=datetime.date(2025, 9, 6), theatre_name='ааааа', performance_name='МегаПон^3', tickets_count=10, id=1012),
-    TicketOut(data=datetime.date(2025, 9, 7), theatre_name='ааааа', performance_name='МегаПон^4', tickets_count=50, id=11),
-]
-def render_button(row):
-    return ui.button(f"Buy {row['tickets_count']}", on_click=lambda: print(f"Clicked {row['id']}"))
-
-table = ui.table(
-    columns=[
-        {"name": "id", "label": "ID", 'field': 'id', 'sortable': True, 'align': 'center'},
-        {"name": "data", "label": "Дата", 'field': 'data', 'align': 'center'},
-        {"name": "theatre_name", "label": "Театр", 'field': 'theatre_name', 'align': 'center'},
-        {"name": "performance_name", "label": "Выступление", 'field': 'performance_name', 'align': 'center'},
-        {"name": "tickets_count", "label": "Количество билетов", 'field': 'tickets_count', 'sortable': True, 'align': 'center'},
-
-    ],
-    rows = [t.model_dump() for t in tickets],  # список словарей
-)
-table.classes('text-center')  # применяет центрирование ко всем колонкам
+    ui.navigate.to('/login')
 
 
-ui.run(port=8082, dark=True, show=False, reload=False, storage_secret='123465')
+ui.run(port=8082, dark=True, show=False, reload=False, storage_secret='1')
