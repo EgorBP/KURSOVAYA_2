@@ -3,7 +3,7 @@ from nicegui import ui
 from app.styles import MAIN_COLOR, MAIN_COLOR_GRADIENT
 from app import ui_elements
 from app.decorators import required_status
-from app.services.data import get_all_tickets_data, delete_on_tickets, get_all_users_data, delete_on_users, save_edited_ticket_data
+from app.services.data import get_all_tickets_data, delete_on_tickets, get_all_users_data, delete_on_users, save_edited_ticket_data, save_edited_users_data
 from app.utils import check_login_type
 from app.models import UserRole, Tickets
 
@@ -174,12 +174,6 @@ def data_users():
 
             if is_admin:
                 table.columns.append({"name": "actions", "label": "Действия", "field": "actions", "align": "center"})
-                # table.add_slot(f'body-cell-actions', """
-                #     <q-td :props="props">
-                #         <q-btn @click="$parent.$emit('edit', props)" icon="edit" flat dense color='blue'/>
-                #         <q-btn @click="$parent.$emit('del', props)" icon="delete" flat dense color='red'/>
-                #     </q-td>
-                # """)
                 table.add_slot("body", fr"""
                 <q-tr :props="props">
                     <q-td class="text-center" style="width:20%;">{{{{ props.row.id }}}}</q-td>
@@ -196,19 +190,19 @@ def data_users():
                 <q-tr v-show="props.expand" :props="props">
                     <q-td colspan="100%" style="padding:0.25rem;">
                         <div style="display:flex; gap:0.5rem; width:100%;">
-                            <q-input v-model="props.row.id" dense style="flex:0.20;" readonly input-class="text-center" />
-                            <q-input v-model="props.row.username" dense style="flex:0.31;" input-class="text-center" />
+                            <q-input v-model="props.row.id" dense style="flex:0.20; font-size:1rem;" readonly input-class="text-center" />
+                            <q-input v-model="props.row.username" dense style="flex:0.31; font-size:1rem;" input-class="text-center" />
                             <q-select
-                              v-model="props.row.type"
+                              v-model="props.row.role"
                               dense
-                              style="flex:0.3;"
+                              style="flex:0.3; font-size:1rem;"
                               input-class="text-center !important"
                               popup-content-class="text-center"
-                              :options="['USER', 'ADMIN']"
+                              :options="{list(UserRole._value2member_map_.keys())}"
                               emit-value
                               map-options
                             />
-                            <q-btn icon="save" dense style="flex:0.19;" 
+                            <q-btn icon="save" dense style="flex:0.19; font-size:1rem;" 
                                 style="background: {MAIN_COLOR_GRADIENT}; color: white;"  
                                 @click="($parent.$emit('save_row', props.row), props.expand = !props.expand)" />    
                         </div>
@@ -222,5 +216,5 @@ def data_users():
                     }
                 """)
 
-                table.on('edit', lambda msg: ui.navigate.to(f'/edit/users/{msg.args['row']['id']}'))
+                table.on('save_row', lambda msg: save_edited_users_data(msg.args, table))
                 table.on('del', lambda msg: delete_on_users(msg.args['row']['id'], table))

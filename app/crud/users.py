@@ -108,7 +108,7 @@ def change_user(
         return None
 
     row.username = data.username
-    row.password_hash = hash_password(data.password)
+    # row.password_hash = hash_password(data.password)
     row.role = data.role
     session.commit()
     session.refresh(row)

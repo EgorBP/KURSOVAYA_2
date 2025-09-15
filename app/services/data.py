@@ -2,7 +2,7 @@ from app.crud import tickets, users
 from app.database import SessionLocal
 from sqlalchemy.orm.attributes import InstrumentedAttribute
 from typing import Sequence
-from app.schemas import TicketOut, UserOut, TicketUpdate
+from app.schemas import TicketOut, UserOut, TicketUpdate, UserUpdate
 from nicegui import ui
 
 
@@ -87,6 +87,33 @@ def get_all_users_data() -> list[UserOut]:
             session=session,
         )
     return data
+
+
+def save_edited_users_data(
+        user: dict,
+        table: ui.table | None = None,
+) -> bool:
+    user_id = int(user['id'])
+    with SessionLocal() as session:
+        result = users.change_user(
+            session=session,
+            row_id=user_id,
+            data=UserUpdate(
+                username=user['username'],
+                role=user['role'],
+            )
+        )
+        if table and result:
+            data = users.get_all_users(session=session)
+    if result:
+        ui.notify("✅ Пользователь успешно изменен ✅")
+        if table:
+            table.rows = [t.model_dump() for t in data]
+            table.update()
+        return True
+    else:
+        ui.notify('❌ Пользователь не найден ❌')
+        return False
 
 
 def delete_on_users(instance_id: int, table: ui.table | None = None) -> bool:
