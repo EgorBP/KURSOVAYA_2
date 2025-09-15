@@ -145,7 +145,7 @@ def change_ticket_row(
         session: Session,
         row_id: int,
         data: TicketUpdate,
-) -> TicketOut:
+) -> TicketOut | None:
     """
     Обновить запись в таблице Tickets по id.
 
@@ -155,9 +155,12 @@ def change_ticket_row(
         data: Новые данные (TicketCreate).
 
     Returns:
-        TicketOut: Обновлённая запись.
+        TicketOut | None: Обновлённая запись или None если запись не найдена.
     """
     row = session.get(Tickets, row_id)
+    if not row:
+        return None
+
     row.date = data.date
     row.theatre_name = data.theatre_name
     row.performance_name = data.performance_name

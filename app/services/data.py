@@ -2,7 +2,7 @@ from app.crud import tickets, users
 from app.database import SessionLocal
 from sqlalchemy.orm.attributes import InstrumentedAttribute
 from typing import Sequence
-from app.schemas import TicketOut, UserOut
+from app.schemas import TicketOut, UserOut, TicketUpdate
 from nicegui import ui
 
 
@@ -17,6 +17,41 @@ def get_all_tickets_data(
             sorting=sorting,
         )
     return data
+
+
+def save_edited_ticket_data(
+        ticket: dict,
+        table: ui.table | None = None,
+        filters: dict[InstrumentedAttribute, Sequence[int | str] | int | str] | None = None,
+        sorting: Sequence[tuple[InstrumentedAttribute, bool]] | tuple[InstrumentedAttribute, bool] | None = None,
+) -> bool:
+    ticket_id = int(ticket['id'])
+    with SessionLocal() as session:
+        result = tickets.change_ticket_row(
+            session=session,
+            row_id=ticket_id,
+            data=TicketUpdate(
+                date=ticket['date'],
+                theatre_name=ticket['theatre_name'],
+                performance_name=ticket['performance_name'],
+                tickets_count=ticket['tickets_count']
+            ),
+        )
+        if table and result:
+            data = tickets.get_tickets_data(
+                session=session,
+                filters=filters,
+                sorting=sorting,
+            )
+    if result:
+        ui.notify('✅ Поле успешно изменено ✅')
+        if table:
+            table.rows = [t.model_dump() for t in data]
+            table.update()
+        return True
+    else:
+        ui.notify('❌ Поле не найдено ❌')
+        return False
 
 
 def delete_on_tickets(

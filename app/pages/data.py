@@ -3,7 +3,7 @@ from nicegui import ui
 from app.styles import MAIN_COLOR, MAIN_COLOR_GRADIENT
 from app import ui_elements
 from app.decorators import required_status
-from app.services.data import get_all_tickets_data, delete_on_tickets, get_all_users_data, delete_on_users
+from app.services.data import get_all_tickets_data, delete_on_tickets, get_all_users_data, delete_on_users, save_edited_ticket_data
 from app.utils import check_login_type
 from app.models import UserRole, Tickets
 
@@ -20,8 +20,7 @@ def data_tickets(column: str | None = None, value: str | None = None):
         if column.type.python_type is int:
             value = int(value)
         elif column.type.python_type is datetime.date:
-            day, month, year = map(int, value.split('.'))
-            value = datetime.datetime(year, month, day)
+            value = datetime.datetime.fromisoformat(value)
         data = get_all_tickets_data({column: value})
     else:
         data = get_all_tickets_data()
@@ -118,20 +117,8 @@ def data_tickets(column: str | None = None, value: str | None = None):
                     </q-td>
                 </q-tr>
                 """)
-                def toggle_edit(msg):
-                    row = msg.args['row']
-                    row['editing'] = not row.get('editing', False)
-                    table.update()
 
-                def save_row(msg):
-                    row = msg.args
-                    ticket_id = row["id"]
-                    # # update_ticket(row)
-                    # row['editing'] = False
-                    # table.update()
-                    ui.notify(f"Запись {ticket_id} обновлена")
-
-                table.on('save_row', save_row)
+                table.on('save_row', lambda msg: save_edited_ticket_data(msg.args, table, {column: value} if column else None))
                 table.on('del', lambda msg: delete_on_tickets(msg.args['row']['id'], table, {column: value} if column else None))
 
 

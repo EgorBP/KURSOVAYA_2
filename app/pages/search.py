@@ -2,6 +2,7 @@ from nicegui import ui
 from app.models import UserRole, Users, Tickets
 from app.styles import MAIN_COLOR, MAIN_COLOR_GRADIENT
 from app import ui_elements
+from datetime import datetime
 
 
 @ui.page('/search', title='Поиск данные')
@@ -12,6 +13,23 @@ def admin_menu():
     btn_style = f'height: 4.5rem; font-size: 1.2rem; background: {MAIN_COLOR_GRADIENT} !important; flex: 1'
 
     def go_to_search(column, value, road='tickets'):
+        if column == Tickets.date.key:
+            try:
+                datetime.fromisoformat(value)
+            except ValueError:
+                try:
+                    day, month, year = value.split('.')
+                    value = f'{year}-{month}-{day}'
+                    datetime.fromisoformat(value)
+                except ValueError:
+                    ui.notify('❌ Не верный формат даты ❌')
+                    return
+        if column == Tickets.tickets_count.key:
+            try:
+                int(value)
+            except ValueError:
+                ui.notify('❌ Количество билетов должно быть числом ❌')
+                return
         if not value:
             ui.navigate.to(f'/data/{road}')
         ui.navigate.to(f'/data/{road}/{column}/{value}')

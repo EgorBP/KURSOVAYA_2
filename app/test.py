@@ -20,7 +20,7 @@ with SessionLocal() as session:
         performance_name='Да',
         tickets_count=100,
     )
-    # result2 = add_ticket_row(session, data)
+    result2 = add_ticket_row(session, data)
     # result3 = delete_row(session, 9)
     # result11 = get_tickets_data(session)
     # result4 = get_tickets_data(session, filters={Tickets.performance_name:'МегаПон^3'})
