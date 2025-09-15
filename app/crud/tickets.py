@@ -88,7 +88,7 @@ def get_popular_theaters(
     stmt = select(
         Tickets.theatre_name,
         func.sum(Tickets.tickets_count).label("all_tickets_count")
-    ).group_by(Tickets.theatre_name).order_by(Tickets.theatre_name)
+    ).group_by(Tickets.theatre_name).order_by(desc("all_tickets_count"))
 
     rows = session.execute(stmt).mappings()
     return prepare_to_send(rows, PopularTheatreOut)
@@ -109,7 +109,7 @@ def get_popular_performances(
     stmt = select(
         Tickets.performance_name,
         func.sum(Tickets.tickets_count).label("all_tickets_count")
-    ).group_by(Tickets.performance_name).order_by(Tickets.performance_name)
+    ).group_by(Tickets.performance_name).order_by(desc("all_tickets_count"))
 
     rows = session.execute(stmt).mappings()
     return prepare_to_send(rows, PopularPerformanceOut)
