@@ -28,6 +28,8 @@ def refresh_table_popular_theaters(
         return True
     else:
         ui.notify('❌ Данные не найдены ❌')
+        table.rows.clear()
+        table.update()
         return False
 
 
@@ -55,4 +57,6 @@ def refresh_table_popular_performances(
         return True
     else:
         ui.notify('❌ Данные не найдены ❌')
+        table.rows.clear()
+        table.update()
         return False
