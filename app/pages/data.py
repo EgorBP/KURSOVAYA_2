@@ -81,12 +81,6 @@ def data_tickets(column: str | None = None, value: str | None = None):
 
             if is_admin:
                 table.columns.append({"name": "actions", "label": "Действия", "field": "actions", "align": "center"})
-                # table.add_slot(f'body-cell-actions', """
-                #     <q-td :props="props">
-                #         <q-btn @click="$parent.$emit('toggle_edit', props)" icon="edit" flat dense color='blue'/>
-                #         <q-btn @click="$parent.$emit('del', props)" icon="delete" flat dense color='red'/>
-                #     </q-td>
-                # """)
                 table.add_slot("body", fr"""
                 <q-tr :props="props">
                     <q-td class="text-center" style="width:10%;">{{{{ props.row.id }}}}</q-td>
@@ -180,11 +174,52 @@ def data_users():
 
             if is_admin:
                 table.columns.append({"name": "actions", "label": "Действия", "field": "actions", "align": "center"})
-                table.add_slot(f'body-cell-actions', """
-                    <q-td :props="props">
-                        <q-btn @click="$parent.$emit('edit', props)" icon="edit" flat dense color='blue'/>
-                        <q-btn @click="$parent.$emit('del', props)" icon="delete" flat dense color='red'/>
+                # table.add_slot(f'body-cell-actions', """
+                #     <q-td :props="props">
+                #         <q-btn @click="$parent.$emit('edit', props)" icon="edit" flat dense color='blue'/>
+                #         <q-btn @click="$parent.$emit('del', props)" icon="delete" flat dense color='red'/>
+                #     </q-td>
+                # """)
+                table.add_slot("body", fr"""
+                <q-tr :props="props">
+                    <q-td class="text-center" style="width:20%;">{{{{ props.row.id }}}}</q-td>
+                    <q-td class="text-center" style="width:30%;">{{{{ props.row.username }}}}</q-td>
+                    <q-td class="text-center" style="width:30%;">{{{{ props.row.role }}}}</q-td>
+                    <q-td class="text-center" style="width:20%;">
+                        <q-btn color="yellow" flat dense 
+                            @click="props.expand = !props.expand"
+                            :icon="props.expand ? 'remove' : 'edit'" />
+                        <q-btn icon="delete" flat dense color='red' @click="$parent.$emit('del', props)" />
                     </q-td>
+                </q-tr>
+
+                <q-tr v-show="props.expand" :props="props">
+                    <q-td colspan="100%" style="padding:0.25rem;">
+                        <div style="display:flex; gap:0.5rem; width:100%;">
+                            <q-input v-model="props.row.id" dense style="flex:0.20;" readonly input-class="text-center" />
+                            <q-input v-model="props.row.username" dense style="flex:0.31;" input-class="text-center" />
+                            <q-select
+                              v-model="props.row.type"
+                              dense
+                              style="flex:0.3;"
+                              input-class="text-center !important"
+                              popup-content-class="text-center"
+                              :options="['USER', 'ADMIN']"
+                              emit-value
+                              map-options
+                            />
+                            <q-btn icon="save" dense style="flex:0.19;" 
+                                style="background: {MAIN_COLOR_GRADIENT}; color: white;"  
+                                @click="($parent.$emit('save_row', props.row), props.expand = !props.expand)" />    
+                        </div>
+                    </q-td>
+                </q-tr>
+                """)
+                ui.add_css("""
+                    .q-select .q-field__native {
+                      display: flex;
+                      justify-content: center;
+                    }
                 """)
 
                 table.on('edit', lambda msg: ui.navigate.to(f'/edit/users/{msg.args['row']['id']}'))
