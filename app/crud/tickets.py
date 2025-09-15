@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from sqlalchemy.orm.attributes import InstrumentedAttribute
-from sqlalchemy import asc, desc, func, select
+from sqlalchemy import asc, desc, func, select, extract
 from typing import Sequence
 from app.schemas import TicketCreate, TicketOut, TicketUpdate, PopularPerformanceOut, PopularTheatreOut
 from app.utils import is_valid_column_for_model, prepare_to_send
@@ -75,6 +75,7 @@ def get_tickets_data(
 
 def get_popular_theaters(
         session: Session,
+        month: int = 1,
 ) -> list[PopularTheatreOut]:
     """
     Получить суммарное количество проданных билетов для каждого театра.
@@ -88,7 +89,9 @@ def get_popular_theaters(
     stmt = select(
         Tickets.theatre_name,
         func.sum(Tickets.tickets_count).label("all_tickets_count")
-    ).group_by(Tickets.theatre_name).order_by(desc("all_tickets_count"))
+    ).group_by(Tickets.theatre_name).where(
+        extract('month', Tickets.date) == month
+    ).order_by(desc("all_tickets_count"))
 
     rows = session.execute(stmt).mappings()
     return prepare_to_send(rows, PopularTheatreOut)
@@ -96,6 +99,7 @@ def get_popular_theaters(
 
 def get_popular_performances(
         session: Session,
+        month: int = 1,
 ) -> list[PopularPerformanceOut]:
     """
     Получить суммарное количество проданных билетов для каждого спектакля.
@@ -106,10 +110,12 @@ def get_popular_performances(
     Returns:
         list[PopularPerformanceOut]: Список спектаклей с общим количеством проданных билетов.
     """
-    stmt = select(
+    stmt = (select(
         Tickets.performance_name,
         func.sum(Tickets.tickets_count).label("all_tickets_count")
-    ).group_by(Tickets.performance_name).order_by(desc("all_tickets_count"))
+    ).group_by(Tickets.performance_name).where(
+        extract('month', Tickets.date) == month
+    ).order_by(desc("all_tickets_count")))
 
     rows = session.execute(stmt).mappings()
     return prepare_to_send(rows, PopularPerformanceOut)
