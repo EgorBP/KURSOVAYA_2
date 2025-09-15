@@ -9,7 +9,7 @@ def admin_menu():
     ui_elements.top_panel('Вход в систему', 65)
     ui_elements.disable_scroll()
 
-    with ui.column().style('width: 100%; height: 100vh; justify-content: center; align-items: center; overflow-y: hidden; transform: translateY(-32vh);'):
+    with ui.column().style('width: 100%; height: 95vh; justify-content: center; align-items: center; overflow-y: hidden; transform: translateY(7vh);'):
         with ui.row().style(
                 f'border: 4px solid {MAIN_COLOR}; padding: 2rem; border-radius: 1rem;'
         ).classes('items-center').style(''):

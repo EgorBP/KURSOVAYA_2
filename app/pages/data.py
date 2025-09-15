@@ -29,14 +29,12 @@ def data_tickets(column: str | None = None, value: str | None = None):
 
     with ui.column().style('align-items: center; width: 100%;'):
         with ui.row().style(
-            f"""
-            width: 70%;
-            height: 100vh;
-            align-items: center;
+            """
+            width: 65%;
+            height: 95vh;
+            min-height: 30vh;  
+            max-height: 100vh;  
             justify-content: center;
-            display: flex;
-            flex-direction: row;
-            transform: translateY(-35vh);
             """
         ):
             columns = [
@@ -55,6 +53,7 @@ def data_tickets(column: str | None = None, value: str | None = None):
                 pagination=5,
             ).classes('my-table').style(
                 f"""
+                margin: auto 0;
                 flex: 1;
                 border: 0.15rem solid {MAIN_COLOR};
                 border-radius: 1rem;
@@ -70,7 +69,7 @@ def data_tickets(column: str | None = None, value: str | None = None):
 
             /* ячейки тела таблицы */
             .my-table tbody td {
-                font-size: 0.8rem !important;
+                font-size: 0.85rem !important;
             }
 
             /* если нужно - шаги пагинации/футер */
@@ -101,9 +100,9 @@ def data_tickets(column: str | None = None, value: str | None = None):
                         <div style="display:flex; gap:0.5rem; width:100%;">
                             <q-input v-model="props.row.id" dense style="flex:0.10;" readonly input-class="text-center" />
                             <q-input v-model="props.row.date" dense style="flex:0.20;" input-class="text-center" />
-                            <q-input v-model="props.row.theatre_name" dense style="flex:0.20;" input-class="text-center" />
+                            <q-input v-model="props.row.theatre_name" dense style="flex:0.19;" input-class="text-center" />
                             <q-input v-model="props.row.performance_name" dense style="flex:0.26;" input-class="text-center" />
-                            <q-input v-model="props.row.tickets_count" dense style="flex:0.15;" input-class="text-center" />
+                            <q-input v-model="props.row.tickets_count" dense style="flex:0.16;" input-class="text-center" />
                             <q-btn icon="save" dense style="flex:0.09;" 
                                 style="background: {MAIN_COLOR_GRADIENT}; color: white;"  
                                 @click="($parent.$emit('save_row', props.row), props.expand = !props.expand)" />    
@@ -127,14 +126,12 @@ def data_users():
 
     with ui.column().style('align-items: center; width: 100%;'):
         with ui.row().style(
-            f"""
-            width: 65%;
-            height: 100vh;
-            align-items: center;
+            """
+            width: 45%;
+            height: 95vh;
+            min-height: 30vh;  
+            max-height: 100vh;  
             justify-content: center;
-            display: flex;
-            flex-direction: row;
-            transform: translateY(-35vh);
             """
         ):
             table = ui.table(
@@ -147,6 +144,7 @@ def data_users():
                 pagination=5,
             ).classes('my-table').style(
                 f"""
+                margin: auto 0;
                 flex: 1;
                 border: 0.15rem solid {MAIN_COLOR};
                 border-radius: 1rem;

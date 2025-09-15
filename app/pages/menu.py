@@ -10,15 +10,15 @@ from app.models import UserRole
 def admin_menu():
     ui_elements.top_panel('Панель администратора', 83)
 
-    with ui.column().style('align-items: center; width: 100%;'):
+    with ui.column().style('align-items: center; width: 100%; justify-content: center; height: 95vh'):
         with ui.row().style(
-                'font-size: 15rem; '
-                'width: 60%; '
-                'justify-content: center; '
-                'display: flex; '
-                'align-items: stretch; '
-                'flex-direction: row;'
-                'margin-top: -1rem;'
+            'font-size: 15rem; '
+            'width: 60%; '
+            'justify-content: center; '
+            'display: flex; '
+            'align-items: stretch; '
+            'flex-direction: row;'
+            'margin-top: 19vh;'
         ):
             ui.button(
                 text='Просмотреть всех пользователей',
@@ -73,15 +73,15 @@ def admin_menu():
 def user_menu():
     ui_elements.top_panel('Панель пользователя', 83)
 
-    with ui.column().style(f'align-items: center; width: 100%;'):
+    with ui.column().style('align-items: center; width: 100%; justify-content: center; height: 95vh'):
         with ui.row().style(
-                'font-size: 15rem; '
-                'width: 70%; '
-                'justify-content: center; '
-                'display: flex; '
-                'align-items: stretch; '
-                'flex-direction: row;'
-                'margin-top: 2rem;'
+            'font-size: 15rem; '
+            'width: 60%; '
+            'justify-content: center; '
+            'display: flex; '
+            'align-items: stretch; '
+            'flex-direction: row;'
+            'margin-top: 19vh;'
         ):
             ui.button(
                 text='Найти',

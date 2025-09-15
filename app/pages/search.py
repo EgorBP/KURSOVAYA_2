@@ -34,7 +34,7 @@ def admin_menu():
             ui.navigate.to(f'/data/{road}')
         ui.navigate.to(f'/data/{road}/{column}/{value}')
 
-    with ui.column().style('width: 100%; height: 100vh; justify-content: center; align-items: center; transform: translateY(-30vh);'):
+    with ui.column().style('width: 100%; height: 95vh; justify-content: center; align-items: center; transform: translateY(6vh);'):
         with ui.row().style(
                 f'border: 4px solid {MAIN_COLOR}; padding: 2rem; border-radius: 1rem;'
         ).classes('items-center').style(''):

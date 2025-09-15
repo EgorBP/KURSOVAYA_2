@@ -10,20 +10,18 @@ from app.services.popular_data import (get_popular_theaters_data, get_popular_pe
 @required_status()
 def data_theaters():
     ui_elements.top_panel('Популярные театры', 70)
-    ui_elements.disable_scroll()
+    # ui_elements.disable_scroll()
 
     data = get_popular_theaters_data()
 
     with ui.column().style('align-items: center; width: 100%;'):
         with ui.row().style(
-            f"""
+            """
             width: 30%;
-            height: 100vh;
-            align-items: center;
+            height: 95vh;
+            min-height: 30vh;  
+            max-height: 100vh;  
             justify-content: center;
-            display: flex;
-            flex-direction: row;
-            transform: translateY(-40vh);
             """
         ):
             table = ui.table(
@@ -35,6 +33,7 @@ def data_theaters():
                 pagination=5,
             ).classes('my-table').style(
                 f"""
+                margin: auto 0;
                 flex: 1;
                 border: 0.15rem solid {MAIN_COLOR};
                 border-radius: 1rem;
@@ -62,6 +61,7 @@ def data_theaters():
             f"""
             position: absolute;
             right: calc((100% - 70%) / 2);
+            top: 30vh;
             """
         ):
             months = ui.select(
@@ -77,12 +77,12 @@ def data_theaters():
                     table=table,
                 )
             ).style(f"""
-                border: 0.15rem solid {MAIN_COLOR};
-                border-radius: 1rem;
+                border: 0.2rem solid {MAIN_COLOR};
+                border-radius: 1.8rem;
                 padding: 1rem;
                 font-size: 1.5rem;
                 width: 15rem;
-                transform: translateX(-0.6rem);
+                transform: translateX(0.0rem);
             """)
 
 
@@ -96,14 +96,12 @@ def data_performances():
 
     with ui.column().style('align-items: center; width: 100%;'):
         with ui.row().style(
-            f"""
+            """
             width: 30%;
-            height: 100vh;
-            align-items: center;
+            height: 95vh;
+            min-height: 30vh;  
+            max-height: 100vh;  
             justify-content: center;
-            display: flex;
-            flex-direction: row;
-            transform: translateY(-40vh);
             """
         ):
             table = ui.table(
@@ -115,6 +113,7 @@ def data_performances():
                 pagination=5,
             ).classes('my-table').style(
                 f"""
+                margin: auto 0;
                 flex: 1;
                 border: 0.15rem solid {MAIN_COLOR};
                 border-radius: 1rem;
@@ -137,11 +136,13 @@ def data_performances():
             .my-table .q-table__bottom {
                 font-size: 0.8rem !important;
             }
-            """)
+            """
+            )
         with ui.column().style(
             f"""
             position: absolute;
-            right: calc((100% - 70%) / 2);
+            right: calc((100% - 80%) / 2);
+            top: 30vh;
             """
         ):
             months = ui.select(
@@ -156,11 +157,13 @@ def data_performances():
                     month=months.options.index(months.value) + 1,
                     table=table,
                 )
-            ).style(f"""
-                border: 0.15rem solid {MAIN_COLOR};
-                border-radius: 1rem;
+            ).style(
+                f"""
+                border: 0.2rem solid {MAIN_COLOR};
+                border-radius: 1.8rem;
                 padding: 1rem;
                 font-size: 1.5rem;
                 width: 15rem;
-                transform: translateX(-0.6rem);
-            """)
+                transform: translateX(0.0rem);
+            """
+            )
