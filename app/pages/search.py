@@ -48,7 +48,7 @@ def admin_menu():
                 }
                 """)
             # Выдвижная панель даты
-            ui_elements.calendar_to_input(value)
+            ui_elements.calendar_and_clear_buttons(value)
 
         with ui.row().style(
                 'width: 34rem; '

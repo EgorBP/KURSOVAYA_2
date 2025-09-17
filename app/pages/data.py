@@ -13,7 +13,7 @@ from app.models import UserRole, Tickets
 @required_role()
 def data_tickets(column: str | None = None, value: str | None = None):
     ui_elements.top_panel('Получение данных', 70)
-    ui_elements.disable_scroll()
+    # ui_elements.disable_scroll()
 
     if column:
         column = getattr(Tickets, column)
@@ -30,10 +30,11 @@ def data_tickets(column: str | None = None, value: str | None = None):
     with ui.column().style('align-items: center; width: 100%;'):
         with ui.row().style(
             """
-            width: 65%;
-            height: 95vh;
-            min-height: 30vh;
+            position: absolute;
+            top: 30vh;
+            width: 30%;
             justify-content: center;
+            align-items: flex-start;   
             """
         ):
             columns = [
@@ -49,10 +50,9 @@ def data_tickets(column: str | None = None, value: str | None = None):
             table = ui.table(
                 columns=columns,
                 rows=[{**t.model_dump(), 'date': t.date.strftime('%d.%m.%Y')} for t in data],
-                pagination=5,
+                pagination=7,
             ).classes('my-table').style(
                 f"""
-                margin: auto 0;
                 flex: 1;
                 border: 0.15rem solid {MAIN_COLOR};
                 border-radius: 1rem;
@@ -118,7 +118,7 @@ def data_tickets(column: str | None = None, value: str | None = None):
 @required_role(UserRole.ADMIN)
 def data_users():
     ui_elements.top_panel('Пользователи', 65)
-    ui_elements.disable_scroll()
+    # ui_elements.disable_scroll()
 
     data = get_all_users_data()
     is_admin = check_login_type(UserRole.ADMIN)
@@ -126,10 +126,11 @@ def data_users():
     with ui.column().style('align-items: center; width: 100%;'):
         with ui.row().style(
             """
-            width: 45%;
-            height: 95vh;
-            min-height: 30vh;  
+            position: absolute;
+            top: 30vh;
+            width: 30%;
             justify-content: center;
+            align-items: flex-start;   
             """
         ):
             table = ui.table(
@@ -139,10 +140,9 @@ def data_users():
                     {"name": "role", "label": "Роль", 'field': 'role', 'sortable': True, 'align': 'center'},
                 ],
                 rows=[t.model_dump() for t in data],
-                pagination=5,
+                pagination=7,
             ).classes('my-table').style(
                 f"""
-                margin: auto 0;
                 flex: 1;
                 border: 0.15rem solid {MAIN_COLOR};
                 border-radius: 1rem;

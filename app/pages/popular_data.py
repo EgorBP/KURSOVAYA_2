@@ -14,14 +14,14 @@ def data_theaters():
 
     data = get_popular_theaters_data()
 
-    with (ui.column().style('align-items: center; width: 100%;')):
+    with ui.column().style('align-items: center; width: 100%;'):
         with ui.row().style(
             """
+            position: absolute;
+            top: 30vh;
             width: 30%;
-            height: 95vh;
-            min-height: 30vh;  
-            max-height: 100vh;  
             justify-content: center;
+            align-items: flex-start;   
             """
         ):
             table = ui.table(
@@ -30,10 +30,9 @@ def data_theaters():
                     {"name": "all_tickets_count", "label": "Всего билетов", 'field': 'all_tickets_count', 'align': 'center'},
                 ],
                 rows=[t.model_dump() for t in data],
-                pagination=5,
+                pagination=7,
             ).classes('my-table').style(
                 f"""
-                margin: auto 0;
                 flex: 1;
                 border: 0.15rem solid {MAIN_COLOR};
                 border-radius: 1rem;
@@ -88,7 +87,7 @@ def data_theaters():
                 font-size: 1.5rem;
                 width: 15rem;
                 transform: translateX(0.0rem);
-            """
+                """
             )
 
 
@@ -103,11 +102,11 @@ def data_performances():
     with ui.column().style('align-items: center; width: 100%;'):
         with ui.row().style(
             """
+            position: absolute;
+            top: 30vh;
             width: 30%;
-            height: 95vh;
-            min-height: 30vh;  
-            max-height: 100vh;  
             justify-content: center;
+            align-items: flex-start;   
             """
         ):
             table = ui.table(
@@ -116,10 +115,9 @@ def data_performances():
                     {"name": "all_tickets_count", "label": "Всего билетов", 'field': 'all_tickets_count', 'align': 'center'},
                 ],
                 rows=[t.model_dump() for t in data],
-                pagination=5,
+                pagination=7,
             ).classes('my-table').style(
                 f"""
-                margin: auto 0;
                 flex: 1;
                 border: 0.15rem solid {MAIN_COLOR};
                 border-radius: 1rem;
@@ -175,5 +173,5 @@ def data_performances():
                 font-size: 1.5rem;
                 width: 15rem;
                 transform: translateX(0.0rem);
-            """
+                """
             )

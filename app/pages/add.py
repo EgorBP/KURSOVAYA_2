@@ -56,6 +56,7 @@ def add_ticket():
             """
         ):
             date = ui.input('Дата').props(f'color={QUASAR_PURPLE}').style(input_style)
+            ui_elements.calendar_to_input(date, set_data=True)
             theatre = ui.input('Название театра').props(f'color={QUASAR_PURPLE}').style(input_style)
             ui_elements.clear_button_to_input(theatre)
             performance = ui.input('Название выступления').props(f'color={QUASAR_PURPLE}').style(input_style)
@@ -63,8 +64,6 @@ def add_ticket():
             tickets = ui.input('Количество билетов').props(f'color={QUASAR_PURPLE}').style(input_style)
             ui_elements.clear_button_to_input(tickets)
 
-
-            ui_elements.calendar_to_input(date)
         ui.button(
             text='Добавить',
             on_click=lambda: handle_add_ticket(
@@ -79,6 +78,7 @@ def add_ticket():
             height: 3.5rem;
             font-size: 1.3rem; 
             background: {MAIN_COLOR_GRADIENT} !important;
+            border-radius: 0.3rem;
             """
         )
 
