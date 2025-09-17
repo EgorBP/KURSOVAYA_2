@@ -49,10 +49,16 @@ def add_new_ticket(
         )
 
     if result:
-        ui.notify(
+        ui.notification(
             'Данные успешно добавлены',
             type='positive',
+            actions=[{
+                "icon": 'storage',
+                "color": "white",
+                "onclick": 'emitEvent("go_tickets_data")'
+            }]
         )
+        ui.on('go_tickets_data', lambda: ui.navigate.to('/data/tickets'))
     return True
 
 
@@ -102,5 +108,4 @@ def add_new_user(
             }]
         )
         ui.on('go_users_data', lambda: ui.navigate.to('/data/users'))
-
     return True
