@@ -1,15 +1,14 @@
 from nicegui import ui
 from app.models import UserRole
-from app.styles import MAIN_COLOR
+from app.styles import MAIN_COLOR, MAIN_COLOR_GRADIENT
 from app import ui_elements
 from app.decorators import required_status
-# from app.services.popular_data import
 
 
 @ui.page('/add/ticket', title='Добавление данных')
 @required_status(UserRole.ADMIN)
 def add_ticket():
-    btn_style = f'flex: 1; font-size: 1.15rem;'
+    input_style = f'flex: 1; font-size: 1.15rem;'
 
     ui_elements.top_panel('Добавление данных', 70)
 
@@ -33,13 +32,19 @@ def add_ticket():
             flex-direction: column;
             """
         ):
-            date = ui.input('Дата').style(btn_style)
-            theatre = ui.input('Название театра').style(btn_style)
-            performance = ui.input('Название выступления').style(btn_style)
-            tickest = ui.input('Количество билетов').style(btn_style)
+            date = ui.input('Дата').style(input_style)
+            theatre = ui.input('Название театра').style(input_style)
+            performance = ui.input('Название выступления').style(input_style)
+            tickest = ui.input('Количество билетов').style(input_style)
 
             ui_elements.calendar_to_input(date)
-        ui.button('Добавить').style("""width: 40%; font-size: 1.15rem; c""")
+        ui.button('Добавить').style(
+            f"""
+            width: 37%; 
+            font-size: 1.15rem; 
+            background: {MAIN_COLOR_GRADIENT} !important;
+            """
+        )
 
 
 @ui.page('/add/user', title='Добавление пользователя')

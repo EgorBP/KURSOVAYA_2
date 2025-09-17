@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from nicegui import ui, app
 from app.styles import MAIN_COLOR_GRADIENT, MAIN_COLOR, QUASAR_PURPLE
 
@@ -49,13 +51,15 @@ def disable_scroll():
 
 
 def calendar_to_input(input_element: ui.input):
+    input_element.value = datetime.now().date().strftime('%d.%m.%Y')
     with input_element.add_slot('append'):
         with ui.menu().props('no-parent-event anchor="center right" self="center start"').style(
                 f'transform: translateX(1rem)') as menu:
-            with ui.date(mask='DD.MM.YYYY').props(f'today-btn color="{QUASAR_PURPLE}"').bind_value(input_element):
+            with ui.date(
+                mask='DD.MM.YYYY',
+                on_change=lambda: menu.close()
+            ).props(f'today-btn color="{QUASAR_PURPLE}"').bind_value(input_element):
                 # with ui.row().classes('justify-end'):
                 #     ui.button('Закрыть', on_click=menu.close).props(f'flat color={QUASAR_PURPLE}')
                 pass
-
         ui.icon('edit_calendar', color=QUASAR_PURPLE).on('click', lambda: menu.open() if not menu.value else menu.close())
-
