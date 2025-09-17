@@ -1,5 +1,5 @@
 from nicegui import ui
-from app.styles import MAIN_COLOR
+from app.styles import MAIN_COLOR, QUASAR_PURPLE
 from app import ui_elements
 from app.decorators import required_status
 from app.services.popular_data import (get_popular_theaters_data, get_popular_performances_data,
@@ -14,7 +14,7 @@ def data_theaters():
 
     data = get_popular_theaters_data()
 
-    with ui.column().style('align-items: center; width: 100%;'):
+    with (ui.column().style('align-items: center; width: 100%;')):
         with ui.row().style(
             """
             width: 30%;
@@ -76,14 +76,20 @@ def data_theaters():
                     month=months.options.index(months.value) + 1,
                     table=table,
                 )
-            ).style(f"""
+            ).props(
+                f"""
+                color={QUASAR_PURPLE}
+                """
+            ).style(
+                f"""
                 border: 0.2rem solid {MAIN_COLOR};
                 border-radius: 1.8rem;
                 padding: 1rem;
                 font-size: 1.5rem;
                 width: 15rem;
                 transform: translateX(0.0rem);
-            """)
+            """
+            )
 
 
 @ui.page('/popular_performances', title='Популярные спектакли')
@@ -157,6 +163,10 @@ def data_performances():
                     month=months.options.index(months.value) + 1,
                     table=table,
                 )
+            ).props(
+                f"""
+                color={QUASAR_PURPLE}
+                """
             ).style(
                 f"""
                 border: 0.2rem solid {MAIN_COLOR};

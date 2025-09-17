@@ -1,5 +1,5 @@
 from nicegui import ui
-from app.styles import MAIN_COLOR, MAIN_COLOR_GRADIENT
+from app.styles import MAIN_COLOR, MAIN_COLOR_GRADIENT, QUASAR_PURPLE
 from app import ui_elements
 from app.services.login import login
 
@@ -14,8 +14,8 @@ def admin_menu():
                 f'border: 4px solid {MAIN_COLOR}; padding: 2rem; border-radius: 1rem;'
         ).classes('items-center').style(''):
             with ui.column().style():
-                username = ui.input('Логин').style('width: 20rem; height: 3.5rem; font-size: 1.2rem')
-                password = ui.input('Пароль', password=True).style('width: 20rem; height: 3.5rem; font-size: 1.2rem')
+                username = ui.input('Логин').props(f'color={QUASAR_PURPLE}').style('width: 20rem; height: 3.5rem; font-size: 1.2rem')
+                password = ui.input('Пароль', password=True).props(f'color={QUASAR_PURPLE}').style('width: 20rem; height: 3.5rem; font-size: 1.2rem')
 
         with ui.row():
             ui.button(

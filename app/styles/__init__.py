@@ -1,1 +1,1 @@
-from .styles import MAIN_COLOR, MAIN_COLOR_GRADIENT
+from .styles import MAIN_COLOR, MAIN_COLOR_GRADIENT, QUASAR_PURPLE

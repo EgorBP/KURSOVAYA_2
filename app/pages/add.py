@@ -1,4 +1,5 @@
 from nicegui import ui
+from app.models import UserRole
 from app.styles import MAIN_COLOR
 from app import ui_elements
 from app.decorators import required_status
@@ -6,27 +7,39 @@ from app.decorators import required_status
 
 
 @ui.page('/add/ticket', title='Добавление данных')
+@required_status(UserRole.ADMIN)
 def add_ticket():
+    btn_style = f'flex: 1; font-size: 1.15rem;'
+
     ui_elements.top_panel('Добавление данных', 70)
 
-    with ui.column().style('align-items: center; width: 100%;'):
-        with ui.row().style(
+    with ui.column().style(
             """
             width: 100%;
             height: 95vh;
+            min-height: 30vh;
             align-items: center;
             justify-content: center;
             """
+    ):
+        with ui.row().style(
+            f"""
+            width: 40%;
+            border: 0.2rem solid {MAIN_COLOR};
+            padding: 1.5rem;
+            border-radius: 1rem;
+            display: flex;
+            align-items: stretch;
+            flex-direction: column;
+            """
         ):
-            date = ui.input('Date')
-            with ui.menu().props('no-parent-event').style('transform: translateX(0rem);') as menu:
-                with ui.date(mask='DD.MM.YYYY').bind_value(date):
-                    with ui.row().classes('justify-end'):
-                        ui.button('Close', on_click=menu.close).props('flat')
-            with date.add_slot('append'):
-                ui.icon('edit_calendar').on('click', menu.open).classes('cursor-pointer')
-            # with ui.column():
-            ui.input()
+            date = ui.input('Дата').style(btn_style)
+            theatre = ui.input('Название театра').style(btn_style)
+            performance = ui.input('Название выступления').style(btn_style)
+            tickest = ui.input('Количество билетов').style(btn_style)
+
+            ui_elements.calendar_to_input(date)
+        ui.button('Добавить').style("""width: 40%; font-size: 1.15rem; c""")
 
 
 @ui.page('/add/user', title='Добавление пользователя')

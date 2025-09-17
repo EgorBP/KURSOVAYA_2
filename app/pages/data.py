@@ -1,6 +1,6 @@
 import datetime
 from nicegui import ui
-from app.styles import MAIN_COLOR, MAIN_COLOR_GRADIENT
+from app.styles import MAIN_COLOR, MAIN_COLOR_GRADIENT, QUASAR_PURPLE
 from app import ui_elements
 from app.decorators import required_status
 from app.services.data import get_all_tickets_data, delete_on_tickets, get_all_users_data, delete_on_users, save_edited_ticket_data, save_edited_users_data
@@ -32,8 +32,7 @@ def data_tickets(column: str | None = None, value: str | None = None):
             """
             width: 65%;
             height: 95vh;
-            min-height: 30vh;  
-            max-height: 100vh;  
+            min-height: 30vh;
             justify-content: center;
             """
         ):
@@ -98,11 +97,11 @@ def data_tickets(column: str | None = None, value: str | None = None):
                 <q-tr v-show="props.expand" :props="props">
                     <q-td colspan="100%" style="padding:0.25rem;">
                         <div style="display:flex; gap:0.5rem; width:100%;">
-                            <q-input v-model="props.row.id" dense style="flex:0.10;" readonly input-class="text-center" />
-                            <q-input v-model="props.row.date" dense style="flex:0.20;" input-class="text-center" />
-                            <q-input v-model="props.row.theatre_name" dense style="flex:0.19;" input-class="text-center" />
-                            <q-input v-model="props.row.performance_name" dense style="flex:0.26;" input-class="text-center" />
-                            <q-input v-model="props.row.tickets_count" dense style="flex:0.16;" input-class="text-center" />
+                            <q-input color={QUASAR_PURPLE} v-model="props.row.id" dense style="flex:0.10;" readonly input-class="text-center" />
+                            <q-input color={QUASAR_PURPLE} v-model="props.row.date" dense style="flex:0.20;" input-class="text-center" />
+                            <q-input color={QUASAR_PURPLE} v-model="props.row.theatre_name" dense style="flex:0.19;" input-class="text-center" />
+                            <q-input color={QUASAR_PURPLE} v-model="props.row.performance_name" dense style="flex:0.26;" input-class="text-center" />
+                            <q-input color={QUASAR_PURPLE} v-model="props.row.tickets_count" dense style="flex:0.16;" input-class="text-center" />
                             <q-btn icon="save" dense style="flex:0.09;" 
                                 style="background: {MAIN_COLOR_GRADIENT}; color: white;"  
                                 @click="($parent.$emit('save_row', props.row), props.expand = !props.expand)" />    
@@ -130,7 +129,6 @@ def data_users():
             width: 45%;
             height: 95vh;
             min-height: 30vh;  
-            max-height: 100vh;  
             justify-content: center;
             """
         ):
@@ -188,9 +186,10 @@ def data_users():
                 <q-tr v-show="props.expand" :props="props">
                     <q-td colspan="100%" style="padding:0.25rem;">
                         <div style="display:flex; gap:0.5rem; width:100%;">
-                            <q-input v-model="props.row.id" dense style="flex:0.20; font-size:1rem;" readonly input-class="text-center" />
-                            <q-input v-model="props.row.username" dense style="flex:0.31; font-size:1rem;" input-class="text-center" />
+                            <q-input color={QUASAR_PURPLE} v-model="props.row.id" dense style="flex:0.20; font-size:1rem;" readonly input-class="text-center" />
+                            <q-input color={QUASAR_PURPLE} v-model="props.row.username" dense style="flex:0.31; font-size:1rem;" input-class="text-center" />
                             <q-select
+                              color={QUASAR_PURPLE} 
                               v-model="props.row.role"
                               dense
                               style="flex:0.3; font-size:1rem;"
