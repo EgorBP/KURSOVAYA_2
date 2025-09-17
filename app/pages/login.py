@@ -21,4 +21,4 @@ def admin_menu():
             ui.button(
                 'Войти',
                 on_click=lambda: login(username=username.value, password=password.value),
-            ).style(f'width: 20rem; height: 3.5rem; font-size: 1.2rem; background: {MAIN_COLOR_GRADIENT} !important;')
+            ).style(f'width: 20rem; height: 3.5rem; font-size: 1.3rem; background: {MAIN_COLOR_GRADIENT} !important;')

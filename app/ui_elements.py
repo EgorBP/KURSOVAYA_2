@@ -62,4 +62,12 @@ def calendar_to_input(input_element: ui.input):
                 # with ui.row().classes('justify-end'):
                 #     ui.button('Закрыть', on_click=menu.close).props(f'flat color={QUASAR_PURPLE}')
                 pass
-        ui.icon('edit_calendar', color=QUASAR_PURPLE).on('click', lambda: menu.open() if not menu.value else menu.close())
+        ui.button(icon='edit_calendar', color=QUASAR_PURPLE).props('flat round dense').on('click', lambda: menu.open() if not menu.value else menu.close())
+
+
+def clear_button_to_input(input_element: ui.input):
+    def clear_input(input_element: ui.input):
+        input_element.value = ''
+    with input_element.add_slot('append'):
+        ui.button(icon='close', color=QUASAR_PURPLE, on_click=lambda: clear_input(input_element)).props(
+            'flat round dense')

@@ -1,13 +1,13 @@
 from nicegui import ui
 from app.styles import MAIN_COLOR, QUASAR_PURPLE
 from app import ui_elements
-from app.decorators import required_status
+from app.decorators import required_role
 from app.services.popular_data import (get_popular_theaters_data, get_popular_performances_data,
                                        refresh_table_popular_theaters, refresh_table_popular_performances)
 
 
 @ui.page('/popular_theaters', title='Популярные театры')
-@required_status()
+@required_role()
 def data_theaters():
     ui_elements.top_panel('Популярные театры', 70)
     # ui_elements.disable_scroll()
@@ -93,7 +93,7 @@ def data_theaters():
 
 
 @ui.page('/popular_performances', title='Популярные спектакли')
-@required_status()
+@required_role()
 def data_performances():
     ui_elements.top_panel('Популярные спектакли', 80)
     ui_elements.disable_scroll()

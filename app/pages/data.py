@@ -2,7 +2,7 @@ import datetime
 from nicegui import ui
 from app.styles import MAIN_COLOR, MAIN_COLOR_GRADIENT, QUASAR_PURPLE
 from app import ui_elements
-from app.decorators import required_status
+from app.decorators import required_role
 from app.services.data import get_all_tickets_data, delete_on_tickets, get_all_users_data, delete_on_users, save_edited_ticket_data, save_edited_users_data
 from app.utils import check_login_type
 from app.models import UserRole, Tickets
@@ -10,7 +10,7 @@ from app.models import UserRole, Tickets
 
 @ui.page('/data/tickets', title='Данные театров')
 @ui.page('/data/tickets/{column}/{value}', title='Данные театров')
-@required_status()
+@required_role()
 def data_tickets(column: str | None = None, value: str | None = None):
     ui_elements.top_panel('Получение данных', 70)
     ui_elements.disable_scroll()
@@ -115,7 +115,7 @@ def data_tickets(column: str | None = None, value: str | None = None):
 
 
 @ui.page('/data/users', title='Данные пользователей')
-@required_status(UserRole.ADMIN)
+@required_role(UserRole.ADMIN)
 def data_users():
     ui_elements.top_panel('Пользователи', 65)
     ui_elements.disable_scroll()

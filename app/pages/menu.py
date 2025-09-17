@@ -1,12 +1,12 @@
 from nicegui import ui
 from app.styles import MAIN_COLOR_GRADIENT, MAIN_COLOR
 from app import ui_elements
-from app.decorators import required_status
+from app.decorators import required_role
 from app.models import UserRole
 
 
 @ui.page('/admin', title='Меню администратора')
-@required_status(UserRole.ADMIN)
+@required_role(UserRole.ADMIN)
 def admin_menu():
     ui_elements.top_panel('Панель администратора', 83)
 
@@ -69,7 +69,7 @@ def admin_menu():
 
 
 @ui.page('/user', title='Меню пользователя')
-@required_status()
+@required_role()
 def user_menu():
     ui_elements.top_panel('Панель пользователя', 83)
 

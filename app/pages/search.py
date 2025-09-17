@@ -1,5 +1,5 @@
 from nicegui import ui
-from app.decorators import required_status
+from app.decorators import required_role
 from app.models import Tickets
 from app.styles import MAIN_COLOR, MAIN_COLOR_GRADIENT, QUASAR_PURPLE
 from app import ui_elements
@@ -7,7 +7,7 @@ from datetime import datetime
 
 
 @ui.page('/search', title='Поиск данные')
-@required_status()
+@required_role()
 def admin_menu():
     ui_elements.top_panel('Поиск данных', label_width=65)
     ui_elements.disable_scroll()
