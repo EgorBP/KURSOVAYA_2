@@ -39,7 +39,16 @@ def data_tickets(column: str | None = None, value: str | None = None):
         ):
             columns = [
                 {"name": "id", "label": "ID", 'field': 'id', 'sortable': True, 'align': 'center', 'style': f'width: 10%;'},
-                {"name": "date", "label": "Дата", 'field': 'date', 'sortable': True, 'align': 'center', 'style': f'width: 20%;'},
+                {"name": "date", "label": "Дата", "field": "date", "align": "center",
+                 "sortable": True,
+                 ':sort': '(a, b) => {'
+                          'const parse = d => {'
+                          'const [day, month, year] = d.split(".");'
+                          'return new Date(`${year}-${month}-${day}`);'
+                          '};'
+                          'return parse(a) - parse(b);'
+                          '}',
+                 },
                 {"name": "theatre_name", "label": "Театр", 'field': 'theatre_name', 'sortable': True,
                  'align': 'center', 'style': f'width: 25%;'},
                 {"name": "performance_name", "label": "Выступление", 'field': 'performance_name', 'sortable': True,
