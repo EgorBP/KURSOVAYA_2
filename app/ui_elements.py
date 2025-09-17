@@ -8,14 +8,14 @@ def top_panel(label_name: str, label_width: int = 70, font_size: int = 6):
             on_click=lambda: ui.navigate.to(f'/{app.storage.user.get("user_type")}') if app.storage.user.get(
                 "authenticated") else ui.navigate.to(f'/login')
         ).props('rounded').style(
-            f'position: absolute; top: 3vh; left: 3vh; background: {MAIN_COLOR_GRADIENT} !important;'
+            f'position: fixed; top: 3vh; left: 3vh; background: {MAIN_COLOR_GRADIENT} !important;'
         )
 
         ui.button(
             icon='person',
             on_click=lambda: ui.navigate.to('/login')
         ).props('rounded').style(
-            f'position: absolute; top: 3vh; right: 3vh; background: {MAIN_COLOR_GRADIENT} !important;'
+            f'position: fixed; top: 3vh; right: 3vh; background: {MAIN_COLOR_GRADIENT} !important;'
         )
 
         ui.label(label_name).style(f"""

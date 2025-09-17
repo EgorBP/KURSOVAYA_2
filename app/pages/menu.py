@@ -47,7 +47,7 @@ def admin_menu():
             ).props('rounded').style(f'font-size: 1.5rem; background: {MAIN_COLOR_GRADIENT} !important; flex: 1')
             ui.button(
                 text='Добавить',
-                on_click=lambda: ui.navigate.to('/add/tickets')
+                on_click=lambda: ui.navigate.to('/add/ticket')
             ).props('rounded').style(f'font-size: 1.5rem; background: {MAIN_COLOR_GRADIENT} !important; flex: 1')
         with ui.row().style(
                 'font-size: 15rem; '

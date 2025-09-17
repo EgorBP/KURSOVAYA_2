@@ -4,6 +4,7 @@ from sqlalchemy.orm.attributes import InstrumentedAttribute
 from typing import Sequence
 from app.schemas import TicketOut, UserOut, TicketUpdate, UserUpdate
 from nicegui import ui
+from datetime import datetime
 
 
 def get_all_tickets_data(
@@ -26,12 +27,24 @@ def save_edited_ticket_data(
         sorting: Sequence[tuple[InstrumentedAttribute, bool]] | tuple[InstrumentedAttribute, bool] | None = None,
 ) -> bool:
     ticket_id = int(ticket['id'])
+    date = ticket['date']
+    try:
+        datetime.fromisoformat(date)
+    except ValueError:
+        try:
+            day, month, year = date.split('.')
+            date = f'{year}-{month}-{day}'
+            datetime.fromisoformat(date)
+        except ValueError:
+            ui.notify('❌ Не верный формат даты ❌')
+            ui.notify('❌ Чтобы сбросить обновите страницу ❌')
+            return False
     with SessionLocal() as session:
         result = tickets.change_ticket_row(
             session=session,
             row_id=ticket_id,
             data=TicketUpdate(
-                date=ticket['date'],
+                date=date,
                 theatre_name=ticket['theatre_name'],
                 performance_name=ticket['performance_name'],
                 tickets_count=ticket['tickets_count']
@@ -46,7 +59,7 @@ def save_edited_ticket_data(
     if result:
         ui.notify('✅ Поле успешно изменено ✅')
         if table:
-            table.rows = [t.model_dump() for t in data]
+            table.rows = [{**t.model_dump(), 'date': t.date.strftime('%d.%m.%Y')} for t in data]
             table.update()
         return True
     else:

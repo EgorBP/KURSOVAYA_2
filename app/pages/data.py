@@ -49,7 +49,7 @@ def data_tickets(column: str | None = None, value: str | None = None):
             ]
             table = ui.table(
                 columns=columns,
-                rows=[t.model_dump() for t in data],
+                rows=[{**t.model_dump(), 'date': t.date.strftime('%d.%m.%Y')} for t in data],
                 pagination=5,
             ).classes('my-table').style(
                 f"""

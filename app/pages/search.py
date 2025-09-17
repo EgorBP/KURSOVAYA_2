@@ -40,6 +40,13 @@ def admin_menu():
         ).classes('items-center').style(''):
             with ui.column().style():
                 value = ui.input('Запрос').style('width: 30rem; height: 4rem; font-size: 1.2rem;').classes('centered-input')
+                # Выдвижная панель даты
+                with ui.menu().props('no-parent-event').style('transform: translateX(25rem);') as menu:
+                    with ui.date(mask='DD.MM.YYYY').bind_value(value):
+                        with ui.row().classes('justify-end'):
+                            ui.button('Close', on_click=menu.close).props('flat')
+                with value.add_slot('append'):
+                    ui.icon('edit_calendar').on('click', menu.open).classes('cursor-pointer')
                 ui.add_css("""
                 .centered-input .q-field__native {
                     text-align: center;
