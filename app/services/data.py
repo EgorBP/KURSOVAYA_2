@@ -49,10 +49,10 @@ def save_edited_ticket_data(
                 actions=[{
                     "icon": 'refresh',
                     "color": "white",
-                    "onclick": 'emitEvent("go_users_data")'
+                    "onclick": 'emitEvent("reload_page")'
                 }]
             )
-            ui.on('go_users_data', lambda: ui.navigate.reload())
+            ui.on('reload_page', lambda: ui.navigate.reload())
             return False
     with SessionLocal() as session:
         result = tickets.change_ticket_row(
