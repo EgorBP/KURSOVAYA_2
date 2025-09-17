@@ -66,7 +66,7 @@ def calendar_to_input(input_element: ui.input, set_data: bool = False):
         ui.button(icon='edit_calendar', color=QUASAR_PURPLE).props('flat round dense').on('click', lambda: menu.open() if not menu.value else menu.close())
 
 
-def clear_button_to_input(input_element: ui.input):
+def clear_button_to_input(input_element: ui.element):
     def clear_input(input_element: ui.input):
         input_element.value = ''
     with input_element.add_slot('append'):

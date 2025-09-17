@@ -24,13 +24,19 @@ def admin_menu():
                     value = f'{year}-{month}-{day}'
                     datetime.fromisoformat(value)
                 except ValueError:
-                    ui.notify('❌ Не верный формат даты ❌')
+                    ui.notify(
+                        'Не верный формат даты',
+                        type='warning',
+                    )
                     return
         if column == Tickets.tickets_count.key:
             try:
                 int(value)
             except ValueError:
-                ui.notify('❌ Количество билетов должно быть числом ❌')
+                ui.notify(
+                    'Количество билетов должно быть числом',
+                    type='warning',
+                )
                 return
         if not value:
             ui.navigate.to(f'/data/{road}')

@@ -17,7 +17,10 @@ def add_new_ticket(
     try:
         tickets_count = int(tickets_count)
     except ValueError:
-        ui.notify('❌ Количеством билетов должно быть число ❌')
+        ui.notify(
+            'Количеством билетов должно быть число',
+            type='negative',
+        )
         return False
 
     try:
@@ -28,7 +31,10 @@ def add_new_ticket(
             date = f'{year}-{month}-{day}'
             date = datetime.datetime.fromisoformat(date)
         except ValueError:
-            ui.notify('❌ Не верный формат даты ❌')
+            ui.notify(
+                'Не верный формат даты',
+                type = 'negative',
+            )
             return False
 
     with SessionLocal() as session:
@@ -36,14 +42,17 @@ def add_new_ticket(
             session=session,
             data=TicketCreate(
                 date=date,
-                theatre_name=performance_name,
+                theatre_name=theatre_name,
                 performance_name=performance_name,
                 tickets_count=tickets_count,
             ),
         )
 
     if result:
-        ui.notify('✅ Данные успешно добавлены ✅')
+        ui.notify(
+            'Данные успешно добавлены',
+            type='positive',
+        )
     return True
 
 
@@ -56,7 +65,10 @@ def add_new_user(
     try:
         role = UserRole(role)
     except ValueError:
-        ui.notify('❌ Не верная роль ❌')
+        ui.notify(
+            'Данной роли не существует',
+            type = 'negative',
+        )
         return False
     with SessionLocal() as session:
         result = users.add_user(
@@ -69,5 +81,26 @@ def add_new_user(
         )
 
     if result:
-        ui.notify('✅ Данные успешно добавлены ✅')
+        ui.notification(
+            'Пользователь успешно добавлен',
+            type='positive',
+            actions=[{
+                "icon": 'storage',
+                "color": "white",
+                "onclick": 'emitEvent("go_users_data")'
+            }]
+        )
+        ui.on('go_users_data', lambda: ui.navigate.to('/data/users'))
+    else:
+        ui.notification(
+            'Пользователь с данным никнеймом уже существует',
+            type='negative',
+            actions=[{
+                "icon": 'storage',
+                "color": "white",
+                "onclick": 'emitEvent("go_users_data")'
+            }]
+        )
+        ui.on('go_users_data', lambda: ui.navigate.to('/data/users'))
+
     return True

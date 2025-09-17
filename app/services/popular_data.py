@@ -2,6 +2,7 @@ from app.crud import tickets
 from app.database import SessionLocal
 from app.schemas import PopularTheatreOut, PopularPerformanceOut
 from nicegui import ui
+from app.decorators import required_role
 
 
 def get_popular_theaters_data() -> list[PopularTheatreOut]:
@@ -12,6 +13,7 @@ def get_popular_theaters_data() -> list[PopularTheatreOut]:
     return data
 
 
+@required_role()
 def refresh_table_popular_theaters(
         month: int,
         table: ui.table,
@@ -41,6 +43,7 @@ def get_popular_performances_data() -> list[PopularPerformanceOut]:
     return data
 
 
+@required_role()
 def refresh_table_popular_performances(
         month: int,
         table: ui.table,
@@ -51,12 +54,18 @@ def refresh_table_popular_performances(
             month=month,
         )
     if data:
-        ui.notify("✅ Данные для выбранного месяца успешно обновлены ✅")
+        ui.notify(
+            'Данные для выбранного месяца успешно обновлены',
+            type='positive',
+        )
         table.rows = [t.model_dump() for t in data]
         table.update()
         return True
     else:
-        ui.notify('❌ Данные не найдены ❌')
+        ui.notify(
+            'Данные не найдены',
+            type='negative',
+        )
         table.rows.clear()
         table.update()
         return False

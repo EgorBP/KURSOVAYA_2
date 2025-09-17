@@ -25,7 +25,10 @@ def login(username: str, password: str) -> UserRole | None:
         user_type = validate_user_password(session, data)
 
     if not user_type:
-        ui.notify('❌ Неверные данные для входа ❌')
+        ui.notify(
+            'Неверные данные для входа',
+            type='negative',
+        )
         return None
     else:
         app.storage.user.update({'username': username, 'authenticated': True, 'user_type': user_type.value})

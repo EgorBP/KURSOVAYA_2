@@ -5,6 +5,8 @@ from typing import Sequence
 from app.schemas import TicketOut, UserOut, TicketUpdate, UserUpdate
 from nicegui import ui
 from datetime import datetime
+from app.decorators import required_role
+from app.models import UserRole
 
 
 def get_all_tickets_data(
@@ -20,6 +22,7 @@ def get_all_tickets_data(
     return data
 
 
+@required_role(UserRole.ADMIN)
 def save_edited_ticket_data(
         ticket: dict,
         table: ui.table | None = None,
@@ -36,8 +39,20 @@ def save_edited_ticket_data(
             date = f'{year}-{month}-{day}'
             datetime.fromisoformat(date)
         except ValueError:
-            ui.notify('❌ Не верный формат даты ❌')
-            ui.notify('❌ Чтобы сбросить обновите страницу ❌')
+            ui.notify(
+                'Не верный формат даты',
+                type='negative',
+            )
+            ui.notification(
+                'Данные могли устареть, обновите страницу',
+                type='info',
+                actions=[{
+                    "icon": 'refresh',
+                    "color": "white",
+                    "onclick": 'emitEvent("go_users_data")'
+                }]
+            )
+            ui.on('go_users_data', lambda: ui.navigate.reload())
             return False
     with SessionLocal() as session:
         result = tickets.change_ticket_row(
@@ -57,16 +72,23 @@ def save_edited_ticket_data(
                 sorting=sorting,
             )
     if result:
-        ui.notify('✅ Поле успешно изменено ✅')
+        ui.notify(
+            'Поле успешно изменено',
+            type='positive',
+        )
         if table:
             table.rows = [{**t.model_dump(), 'date': t.date.strftime('%d.%m.%Y')} for t in data]
             table.update()
         return True
     else:
-        ui.notify('❌ Поле не найдено ❌')
+        ui.notify(
+            'Поле не найдено',
+            type='negative',
+        )
         return False
 
 
+@required_role(UserRole.ADMIN)
 def delete_on_tickets(
         instance_id: int,
         table: ui.table | None = None,
@@ -85,12 +107,18 @@ def delete_on_tickets(
                 sorting=sorting,
             )
     if result:
-        ui.notify("✅ Поле успешно удалено ✅")
+        ui.notify(
+            'Поле успешно удалено',
+            type='positive',
+        )
         if table:
             table.rows = [t.model_dump() for t in data]
             table.update()
     else:
-        ui.notify('❌ Поле не найдено ❌')
+        ui.notify(
+            'Поле не найдено',
+            type='negative',
+        )
     return result
 
 
@@ -102,6 +130,7 @@ def get_all_users_data() -> list[UserOut]:
     return data
 
 
+@required_role(UserRole.ADMIN)
 def save_edited_users_data(
         user: dict,
         table: ui.table | None = None,
@@ -119,16 +148,23 @@ def save_edited_users_data(
         if table and result:
             data = users.get_all_users(session=session)
     if result:
-        ui.notify("✅ Пользователь успешно изменен ✅")
+        ui.notify(
+            'Пользователь успешно изменен',
+            type='positive',
+        )
         if table:
             table.rows = [t.model_dump() for t in data]
             table.update()
         return True
     else:
-        ui.notify('❌ Пользователь не найден ❌')
+        ui.notify(
+            'Пользователь не найден',
+            type='negative',
+        )
         return False
 
 
+@required_role(UserRole.ADMIN)
 def delete_on_users(instance_id: int, table: ui.table | None = None) -> bool:
     with SessionLocal() as session:
         result = users.delete_user(
@@ -138,10 +174,16 @@ def delete_on_users(instance_id: int, table: ui.table | None = None) -> bool:
         if table and result:
             data = users.get_all_users(session=session)
     if result:
-        ui.notify("✅ Пользователь успешно удален ✅")
+        ui.notify(
+            'Пользователь успешно удален',
+            type='positive',
+        )
         if table:
             table.rows = [t.model_dump() for t in data]
             table.update()
     else:
-        ui.notify('❌ Пользователь не найден ❌')
+        ui.notify(
+            'Пользователь не найден',
+            type='negative',
+        )
     return result
