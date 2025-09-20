@@ -1,7 +1,7 @@
 from nicegui import ui, app
 import functools
 from app.models import UserRole
-from utils import check_login_type
+from app.utils import check_login_type
 
 
 def required_role(status: UserRole | None = None):
