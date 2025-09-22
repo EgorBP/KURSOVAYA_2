@@ -1,7 +1,7 @@
 ## ⚙️ Инструкция к запуску
 ### 1. Создать файл окружения
 ```bash
-copy .env.docker.expample .env.docker
+copy .env.docker.exapmple .env.docker
 ```
 ### 2. Запустить docker compose
 ```bash
